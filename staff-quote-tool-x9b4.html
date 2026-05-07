@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Quote Calculator | Cleaning Heroes</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <style>
+        body {
+            background-color: #f8fbfb;
+            color: var(--text-main);
+        }
+        .quote-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--text-main));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        .quote-header h1 {
+            color: white;
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        .quote-header p {
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+        .quote-container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 0 1.5rem;
+            align-items: start;
+        }
+        
+        .calc-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .calc-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #edf1f3;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Forms / Inputs */
+        .form-group-calc {
+            margin-bottom: 1.5rem;
+        }
+        .form-group-calc label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+        .form-group-calc select, .form-group-calc input[type="number"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group-calc select:focus, .form-group-calc input[type="number"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        /* Checkbox Grid */
+        .extras-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .extra-item {
+            display: flex;
+            align-items: center;
+            background: #f8fbfb;
+            padding: 0.8rem;
+            border-radius: 6px;
+            border: 1px solid #e1e8ed;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .extra-item:hover {
+            border-color: var(--secondary-color);
+        }
+        .extra-item input[type="checkbox"] {
+            margin-right: 0.8rem;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+        .extra-item.active {
+            border-color: var(--primary-color);
+            background: rgba(43, 76, 94, 0.05);
+        }
+        .extra-label-text {
+            flex: 1;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .extra-price {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* Counters */
+        .counter-wrapper {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        .counter-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .counter-btn:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
+        .counter-val {
+            margin: 0 1rem;
+            font-weight: 600;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Frequency */
+        .freq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .freq-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .freq-item input[type="radio"] {
+            margin-right: 1rem;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+        .freq-item.active {
+            border-color: var(--primary-color);
+            background: rgba(43, 76, 94, 0.05);
+        }
+        .freq-title {
+            font-weight: 600;
+            font-size: 1.05rem;
+            display: block;
+        }
+        .freq-discount {
+            font-size: 0.85rem;
+            color: #16a34a;
+            font-weight: 600;
+            margin-top: 0.2rem;
+            display: block;
+        }
+
+        /* Sticky Total */
+        .sticky-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 2rem;
+            border-top: 5px solid var(--secondary-color);
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: #555;
+        }
+        .summary-row.discount {
+            color: #16a34a;
+        }
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed #edf1f3;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        .summary-total .total-price {
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .quote-container {
+                grid-template-columns: 1fr;
+            }
+            .freq-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* PRINT STYLES */
+        .print-only {
+            display: none;
+        }
+
+        @media print {
+            @page {
+                size: portrait;
+                margin: 10mm;
+            }
+            body { 
+                background: white !important; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact; 
+                font-family: 'Outfit', sans-serif;
+                margin: 0;
+                font-size: 14px;
+            }
+            .quote-header, .quote-container { 
+                display: none !important; 
+            }
+            .print-only { 
+                display: block !important; 
+                padding: 0; 
+            }
+            .print-header { 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: flex-start; 
+                margin-bottom: 1rem;
+            }
+            .print-company-info h1 { 
+                color: #6da1b3; 
+                margin: 0 0 0.1rem 0; 
+                font-size: 1.6rem; 
+            }
+            .print-company-info p { 
+                margin: 0; 
+                color: #444; 
+                font-size: 0.8rem; 
+                line-height: 1.3;
+            }
+            .print-logo img {
+                max-width: 130px !important;
+            }
+            .print-meta {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 1.5rem;
+                margin-top: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            .print-meta-col p { 
+                margin: 0.1rem 0; 
+                font-size: 0.85rem; 
+                color: #555;
+                min-height: 1rem;
+            }
+            .print-meta-title {
+                font-weight: 700;
+                color: #333;
+                margin-bottom: 0.2rem !important;
+                font-size: 0.95rem !important;
+            }
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 1.5rem;
+            }
+            .print-table th {
+                border-bottom: 2px solid #ccc;
+                color: #6da1b3;
+                text-align: left;
+                padding: 6px 10px;
+                font-weight: 600;
+                font-size: 0.95rem;
+            }
+            .print-table td {
+                padding: 6px 10px;
+                border-bottom: 1px solid #f4f6f8;
+                color: #333;
+                font-size: 0.85rem;
+            }
+            .print-table tr:nth-child(even) {
+                background-color: #fcfdfd;
+            }
+            .print-totals {
+                width: 45%;
+                margin-left: auto;
+                background: #f8fbfb;
+                padding: 1rem;
+                border-radius: 8px;
+                page-break-inside: avoid;
+            }
+            .print-totals-row {
+                display: flex; 
+                justify-content: space-between; 
+                padding: 0.3rem 0;
+                color: #444;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body style="display: none;" id="secure-body">
+
+    <div class="quote-header">
+        <h1>Internal Quote Tool</h1>
+        <p>DO NOT SHARE • For Staff Use Only</p>
+    </div>
+
+    <div class="quote-container">
+        <!-- Main Form Left Side -->
+        <div class="calc-main">
+            <!-- CUSTOMER DETAILS & PROPERTY LOOKUP -->
+            <div class="calc-section" style="background: rgba(92, 122, 135, 0.05); border-color: var(--secondary-color);">
+                <h2 style="font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem;"><span style="font-size: 1.4rem;">👤</span> Customer Details & Property Lookup</h2>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div class="form-group-calc" style="margin-bottom: 0;">
+                        <label for="customerFirstName">First Name</label>
+                        <input type="text" id="customerFirstName" placeholder="e.g. John">
+                    </div>
+                    <div class="form-group-calc" style="margin-bottom: 0;">
+                        <label for="customerLastName">Last Name</label>
+                        <input type="text" id="customerLastName" placeholder="e.g. Doe">
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div class="form-group-calc" style="margin-bottom: 0;">
+                        <label for="customerPhone">Phone Number</label>
+                        <input type="tel" id="customerPhone" placeholder="e.g. (843) 555-0192">
+                    </div>
+                    <div class="form-group-calc" style="margin-bottom: 0;">
+                        <label for="customerEmail">Email Address</label>
+                        <input type="email" id="customerEmail" placeholder="e.g. john@example.com">
+                    </div>
+                </div>
+
+                <div class="form-group-calc" style="margin-bottom: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 1.5rem;">
+                    <label for="lookupAddress">Property Address (For Verification)</label>
+                    <input type="text" id="lookupAddress" placeholder="e.g. 123 Main St, Pawleys Island">
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn" style="flex: 1; background: #006aff; color: white; border: none; padding: 0.8rem; font-weight: 600;" onclick="lookupProperty('zillow')">Check Zillow</button>
+                </div>
+            </div>
+
+            <!-- BASE SERVICES Option -->
+            <div class="calc-section">
+                <h2>1. Base Service & Bathrooms</h2>
+                <div class="form-group-calc">
+                    <label for="baseService">Select Square Footage or Rooms</label>
+                    <select id="baseService">
+                        <option value="126" data-name="Studio or 1 bedroom">Studio or 1 bedroom - $126</option>
+                        <option value="146" data-name="2 Bedroom Apartment">2 Bedroom Apartment - $146</option>
+                        <option value="166" data-name="3 bedroom Apartment or Townhome">3 bedroom Apartment or Townhome - $166</option>
+                        <option value="171" data-name="3 or 4 bedroom House (1700-1999 sq ft)" selected>3 or 4 bedroom House (1700-1999 sq ft) - $171</option>
+                        <option value="181" data-name="Between 2000 and 2499 sq ft">Between 2000 and 2499 sq ft - $181</option>
+                        <option value="198" data-name="Between 2500 and 2999 sq ft">Between 2500 and 2999 sq ft - $198</option>
+                        <option value="240" data-name="Between 3000-3499 sq ft">Between 3000-3499 sq ft - $240</option>
+                        <option value="290" data-name="Between 3500-3999 sq ft">Between 3500-3999 sq ft - $290</option>
+                        <option value="340" data-name="Between 4000 and 4499 sq ft">Between 4000 and 4499 sq ft - $340</option>
+                        <option value="390" data-name="Between 4500 and 4999 sq ft">Between 4500 and 4999 sq ft - $390</option>
+                        <option value="440" data-name="Between 5000 and 5499 sq ft">Between 5000 and 5499 sq ft - $440</option>
+                        <option value="490" data-name="Between 5500 and 5999 sq ft">Between 5500 and 5999 sq ft - $490</option>
+                    </select>
+                </div>
+                <div class="form-group-calc">
+                    <label for="baseBathroom">Select Bathrooms</label>
+                    <select id="baseBathroom">
+                        <option value="19" data-name="1 Bathroom">1 Bathroom - $19</option>
+                        <option value="39" data-name="2 Bathrooms">2 Bathrooms - $39</option>
+                        <option value="59" data-name="3 Bathrooms" selected>3 Bathrooms - $59</option>
+                        <option value="79" data-name="4 Bathrooms">4 Bathrooms - $79</option>
+                        <option value="99" data-name="5 Bathrooms">5 Bathrooms - $99</option>
+                        <option value="119" data-name="6 Bathrooms">6 Bathrooms - $119</option>
+                        <option value="139" data-name="7 Bathrooms">7 Bathrooms - $139</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- EXTRAS -->
+            <div class="calc-section">
+                <h2>2. Extras & Add-ons</h2>
+                
+                <div class="extras-grid">
+                    <label class="extra-item">
+                        <input type="checkbox" class="extra-check" value="100" data-name="First Time Clean">
+                        <div>
+                            <div class="extra-label-text">First Time Clean</div>
+                            <div class="extra-price">+$100.00</div>
+                        </div>
+                    </label>
+                    <label class="extra-item">
+                        <input type="checkbox" class="extra-check" value="100" data-name="Move-In/Out">
+                        <div>
+                            <div class="extra-label-text">Move-In/Out</div>
+                            <div class="extra-price">+$100.00</div>
+                        </div>
+                    </label>
+                    <label class="extra-item">
+                        <input type="checkbox" class="extra-check" value="25" data-name="I Have Pets">
+                        <div>
+                            <div class="extra-label-text">I Have Pets</div>
+                            <div class="extra-price">+$25.00</div>
+                        </div>
+                    </label>
+                    <label class="extra-item">
+                        <input type="checkbox" class="extra-check" value="45" data-name="Inside the Oven">
+                        <div>
+                            <div class="extra-label-text">Inside the Oven</div>
+                            <div class="extra-price">+$45.00</div>
+                        </div>
+                    </label>
+                    <label class="extra-item">
+                        <input type="checkbox" class="extra-check" value="25" data-name="Inside an Empty Fridge">
+                        <div>
+                            <div class="extra-label-text">Inside Empty Fridge</div>
+                            <div class="extra-price">+$25.00</div>
+                        </div>
+                    </label>
+                    <label class="extra-item">
+                        <input type="checkbox" class="extra-check" value="45" data-name="Inside a Full Fridge">
+                        <div>
+                            <div class="extra-label-text">Inside Full Fridge</div>
+                            <div class="extra-price">+$45.00</div>
+                        </div>
+                    </label>
+                    <label class="extra-item">
+                        <input type="checkbox" class="extra-check" value="50" data-name="Second Kitchen">
+                        <div>
+                            <div class="extra-label-text">Second Kitchen</div>
+                            <div class="extra-price">+$50.00</div>
+                        </div>
+                    </label>
+                    <label class="extra-item">
+                        <input type="checkbox" class="extra-check" value="75" data-name="Shed/Pool House">
+                        <div>
+                            <div class="extra-label-text">Shed/Pool House</div>
+                            <div class="extra-price">+$75.00</div>
+                        </div>
+                    </label>
+                    <label class="extra-item">
+                        <input type="checkbox" class="extra-check" value="50" data-name="Inside Cabinets (Empty)">
+                        <div>
+                            <div class="extra-label-text">Inside Cabinets (Empty)</div>
+                            <div class="extra-price">+$50.00</div>
+                        </div>
+                    </label>
+                    <label class="extra-item">
+                        <input type="checkbox" class="extra-check" value="30" data-name="Garage Sweep">
+                        <div>
+                            <div class="extra-label-text">Garage Sweep</div>
+                            <div class="extra-price">+$30.00</div>
+                        </div>
+                    </label>
+                    <label class="extra-item">
+                        <input type="checkbox" class="extra-check" value="20" data-name="Balcony Sweep">
+                        <div>
+                            <div class="extra-label-text">Balcony Sweep</div>
+                            <div class="extra-price">+$20.00</div>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Modifiers with Counters -->
+                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #edf1f3;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--text-main);">Variable Extras</h3>
+                    
+                    <!-- Walls -->
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: flex; align-items: center;">
+                            <input type="checkbox" id="wallsCheck" class="extra-check-variable" style="margin-right: 0.8rem; width: 18px; height: 18px; accent-color: var(--primary-color);">
+                            <span class="extra-label-text">Walls ($20 per room)</span>
+                        </label>
+                        <div class="counter-wrapper" id="wallsCounter" style="display: none; margin-left: 2rem;">
+                            <button type="button" class="counter-btn" id="wallMinus">-</button>
+                            <span class="counter-val" id="wallQty">1</span>
+                            <button type="button" class="counter-btn" id="wallPlus">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Organization -->
+                    <div>
+                        <label style="display: flex; align-items: center;">
+                            <input type="checkbox" id="orgCheck" class="extra-check-variable" style="margin-right: 0.8rem; width: 18px; height: 18px; accent-color: var(--primary-color);">
+                            <span class="extra-label-text">Organization ($80/hr, min 3 hrs)</span>
+                        </label>
+                        <div class="counter-wrapper" id="orgCounter" style="display: none; margin-left: 2rem;">
+                            <button type="button" class="counter-btn" id="orgMinus" disabled>-</button>
+                            <span class="counter-val" id="orgQty">3</span>
+                            <button type="button" class="counter-btn" id="orgPlus">+</button>
+                            <span style="font-size: 0.85rem; color: #666; margin-left: 1rem;">Hours</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FREQUENCY -->
+            <div class="calc-section">
+                <h2>3. Cleaning Frequency</h2>
+                <div class="freq-grid">
+                    <label class="freq-item active" id="label-freq-1">
+                        <input type="radio" name="frequency" value="0" data-discount="0" checked>
+                        <div>
+                            <span class="freq-title">1 Time Service</span>
+                            <span class="freq-discount" style="color: #666;">Standard Price</span>
+                        </div>
+                    </label>
+                    <label class="freq-item" id="label-freq-2">
+                        <input type="radio" name="frequency" value="20" data-discount="0.20">
+                        <div>
+                            <span class="freq-title">Weekly</span>
+                            <span class="freq-discount">-20% Off</span>
+                        </div>
+                    </label>
+                    <label class="freq-item" id="label-freq-3">
+                        <input type="radio" name="frequency" value="15" data-discount="0.15">
+                        <div>
+                            <span class="freq-title">Bi-weekly</span>
+                            <span class="freq-discount">-15% Off</span>
+                        </div>
+                    </label>
+                    <label class="freq-item" id="label-freq-4">
+                        <input type="radio" name="frequency" value="10" data-discount="0.10">
+                        <div>
+                            <span class="freq-title">Monthly</span>
+                            <span class="freq-discount">-10% Off</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sticky Summary Right Side -->
+        <div class="calc-sidebar">
+            <div class="sticky-summary">
+                <h3 style="color: var(--text-main); margin-bottom: 1.5rem; font-size: 1.3rem;">Quote Summary</h3>
+                
+                <div class="summary-row">
+                    <span>Base Service</span>
+                    <span id="summaryBase">$171.00</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span>Bathrooms</span>
+                    <span id="summaryBathroom">$59.00</span>
+                </div>
+                
+                <div id="summaryExtrasContainer">
+                    <!-- Extras populated here via JS -->
+                </div>
+
+                <div class="summary-row discount" id="summaryDiscountRow" style="display: none; margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem;">
+                    <span id="summaryDiscountLabel">Discount</span>
+                    <span id="summaryDiscountAmount">-$0.00</span>
+                </div>
+
+                <div class="summary-row" id="summaryTaxRow" style="margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem; color: #555;">
+                    <span>Tax (7%)</span>
+                    <span id="summaryTax">+$0.00</span>
+                </div>
+
+                <div style="margin-top: 1rem; padding: 1rem; background: #f8fbfb; border: 1px solid #e1e8ed; border-radius: 6px;">
+                    <label style="display: flex; align-items: center; cursor: pointer; font-size: 0.95rem; font-weight: 500;">
+                        <input type="checkbox" id="chargeTaxCheck" style="margin-right: 0.8rem; width: 18px; height: 18px; accent-color: var(--primary-color);">
+                        Charge Sales Tax (7%)
+                    </label>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span class="total-price" id="summaryTotal">$171.00</span>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-primary" onclick="prepareAndPrint()" style="flex: 1; justify-content: center; display: flex; align-items: center; gap: 0.5rem; padding: 0.8rem; font-weight: 600;">
+                        🖨️ Print
+                    </button>
+                    <button class="btn" onclick="saveToTracker()" id="saveQuoteBtn" style="flex: 1; background: #16a34a; color: white; border: none; justify-content: center; display: flex; align-items: center; gap: 0.5rem; padding: 0.8rem; font-weight: 600;">
+                        💾 Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRINT LAYOUT (Hidden on screen) -->
+    <div id="print-layout" class="print-only">
+        <div class="print-header">
+            <div class="print-company-info">
+                <h1>Cleaning Heroes</h1>
+                <p>104 Hunters Oak Ct.<br>
+                Pawleys Island, SC 29585<br>
+                (843) 894-2440<br>
+                info@mycleaningheroes.com</p>
+                <h2 style="color: #6da1b3; font-size: 2rem; margin: 2rem 0 0 0;">Quote</h2>
+                <p style="font-weight: 700; color: #111; margin-top: 0.4rem;">Generated on <span id="printDate"></span></p>
+            </div>
+            <div class="print-logo">
+                <img src="assets/images/logo.png" alt="Cleaning Heroes Logo" style="max-width: 180px; height: auto;">
+            </div>
+        </div>
+
+        <div class="print-meta">
+            <div class="print-meta-col">
+                <p class="print-meta-title">Quote for</p>
+                <p id="printCustName"></p>
+                <p id="printCustAddress"></p>
+                <p id="printCustPhone"></p>
+                <p id="printCustEmail"></p>
+            </div>
+            <div class="print-meta-col">
+                <p class="print-meta-title">Payable to</p>
+                <p>Cleaning Heroes</p>
+            </div>
+            <div class="print-meta-col">
+                <p class="print-meta-title">Quote #</p>
+                <p id="printQuoteNumber"></p>
+            </div>
+        </div>
+
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th style="text-align: right;">Total price</th>
+                </tr>
+            </thead>
+            <tbody id="printLineItems">
+                <!-- Line items populated by JS -->
+            </tbody>
+        </table>
+
+        <div class="print-totals">
+            <div class="print-totals-row" style="border-bottom: 1px solid #eee;">
+                <span>Subtotal</span>
+                <span id="printSubtotal"></span>
+            </div>
+            <div class="print-totals-row" id="printDiscountRow" style="color: #16a34a; display: none;">
+                <span id="printDiscountLabel">Discount</span>
+                <span id="printDiscountAmount"></span>
+            </div>
+            <div class="print-totals-row" id="printTaxRow" style="display: none;">
+                <span>Tax @ 7%</span>
+                <span id="printTaxAmount"></span>
+            </div>
+            <div class="print-totals-row" style="font-weight: 700; font-size: 1.3rem; color: #111; border-top: 2px solid #ccc; margin-top: 0.5rem; padding-top: 1rem;">
+                <span>Total</span>
+                <span id="printTotal"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Security PIN Prompt
+        (function() {
+            const STAFF_PIN = "6453"; // You can change this PIN to your preferred passcode
+            let attempts = 0;
+            
+            function askPin() {
+                const pin = prompt("Enter Staff PIN to access Quote Tool:");
+                if (pin === STAFF_PIN) {
+                    // Success! Show the page.
+                    document.getElementById('secure-body').style.display = 'block';
+                } else if (pin === null) {
+                    // User hit cancel
+                    document.documentElement.innerHTML = "<h2 style='text-align:center; padding: 50px; font-family:sans-serif; color: #333;'>Access Denied. Reload page to try again.</h2>";
+                } else {
+                    attempts++;
+                    if (attempts >= 3) {
+                        document.documentElement.innerHTML = "<h2 style='text-align:center; padding: 50px; font-family:sans-serif; color: #333;'>Access Denied. Reload page to try again.</h2>";
+                    } else {
+                        alert("Incorrect PIN. Please try again.");
+                        askPin();
+                    }
+                }
+            }
+            
+            // Trigger immediately before rest of JS loads
+            askPin();
+        })();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const baseServiceSelect = document.getElementById('baseService');
+            const baseBathroomSelect = document.getElementById('baseBathroom');
+            const extraChecks = document.querySelectorAll('.extra-check');
+            const freqRadios = document.querySelectorAll('input[name="frequency"]');
+            
+            // Variable Extras
+            const wallsCheck = document.getElementById('wallsCheck');
+            const wallQtySpan = document.getElementById('wallQty');
+            const wallMinus = document.getElementById('wallMinus');
+            const wallPlus = document.getElementById('wallPlus');
+            
+            const orgCheck = document.getElementById('orgCheck');
+            const orgQtySpan = document.getElementById('orgQty');
+            const orgMinus = document.getElementById('orgMinus');
+            const orgPlus = document.getElementById('orgPlus');
+
+            // Summary Elements
+            const summaryBase = document.getElementById('summaryBase');
+            const summaryBathroom = document.getElementById('summaryBathroom');
+            const summaryExtrasContainer = document.getElementById('summaryExtrasContainer');
+            const summaryDiscountRow = document.getElementById('summaryDiscountRow');
+            const summaryDiscountLabel = document.getElementById('summaryDiscountLabel');
+            const summaryDiscountAmount = document.getElementById('summaryDiscountAmount');
+            const summaryTaxRow = document.getElementById('summaryTaxRow');
+            const summaryTax = document.getElementById('summaryTax');
+            const summaryTotal = document.getElementById('summaryTotal');
+            const chargeTaxCheck = document.getElementById('chargeTaxCheck');
+
+            let state = {
+                basePrice: 171,
+                bathroomPrice: 59,
+                extras: [], // Array of objects {name: string, price: number}
+                wallsQty: 1,
+                orgQty: 3,
+                discountPercent: 0,
+                discountName: '1 Time Service'
+            };
+
+            const formatMoney = (amount) => {
+                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+            };
+
+            const calculateQuote = () => {
+                // Get Base Price
+                state.basePrice = parseFloat(baseServiceSelect.value);
+                state.bathroomPrice = parseFloat(baseBathroomSelect.value);
+
+                // Get Static Extras
+                state.extras = [];
+                extraChecks.forEach(check => {
+                    if(check.checked) {
+                        state.extras.push({
+                            name: check.dataset.name,
+                            price: parseFloat(check.value)
+                        });
+                        check.closest('.extra-item').classList.add('active');
+                    } else {
+                        check.closest('.extra-item').classList.remove('active');
+                    }
+                });
+
+                // Get Variable Extras
+                if (wallsCheck.checked) {
+                    state.extras.push({
+                        name: `Walls (${state.wallsQty} rooms)`,
+                        price: state.wallsQty * 20
+                    });
+                }
+                if (orgCheck.checked) {
+                    state.extras.push({
+                        name: `Organization (${state.orgQty} hrs)`,
+                        price: state.orgQty * 80
+                    });
+                }
+
+                // Get Frequency
+                freqRadios.forEach(radio => {
+                    if (radio.checked) {
+                        state.discountPercent = parseFloat(radio.dataset.discount);
+                        state.discountName = radio.nextElementSibling.querySelector('.freq-title').innerText;
+                        
+                        // Update active state
+                        document.querySelectorAll('.freq-item').forEach(el => el.classList.remove('active'));
+                        radio.closest('.freq-item').classList.add('active');
+                    }
+                });
+
+                updateUI();
+            };
+
+            const updateUI = () => {
+                // Update Base Price UI
+                summaryBase.innerText = formatMoney(state.basePrice);
+                summaryBathroom.innerText = formatMoney(state.bathroomPrice);
+
+                // Update Extras UI
+                summaryExtrasContainer.innerHTML = '';
+                let extrasTotal = 0;
+                state.extras.forEach(extra => {
+                    extrasTotal += extra.price;
+                    const row = document.createElement('div');
+                    row.className = 'summary-row';
+                    row.style.fontSize = '0.9rem';
+                    row.style.marginBottom = '0.5rem';
+                    row.innerHTML = `<span>+ ${extra.name}</span><span>${formatMoney(extra.price)}</span>`;
+                    summaryExtrasContainer.appendChild(row);
+                });
+
+                // Calculate Subtotal (Base + Bathrooms + Extras)
+                const subtotal = state.basePrice + state.bathroomPrice + extrasTotal;
+
+                // Calculate Discount
+                const discountAmount = subtotal * state.discountPercent;
+                
+                if (state.discountPercent > 0) {
+                    summaryDiscountRow.style.display = 'flex';
+                    summaryDiscountLabel.innerText = `${state.discountName} (-${state.discountPercent * 100}%)`;
+                    summaryDiscountAmount.innerText = `-${formatMoney(discountAmount)}`;
+                } else {
+                    summaryDiscountRow.style.display = 'none';
+                }
+
+                // Calculate Tax (7% SC Tax applies to pre-tax post-discount total)
+                const preTaxTotal = subtotal - discountAmount;
+                let taxAmount = 0;
+                
+                if (chargeTaxCheck.checked) {
+                    taxAmount = preTaxTotal * 0.07;
+                    summaryTaxRow.style.display = 'flex';
+                    summaryTax.innerText = `+${formatMoney(taxAmount)}`;
+                } else {
+                    summaryTaxRow.style.display = 'none';
+                }
+
+                // Calculate Final Total
+                const finalTotal = preTaxTotal + taxAmount;
+                summaryTotal.innerText = formatMoney(finalTotal);
+            };
+
+            // Event Listeners
+            baseServiceSelect.addEventListener('change', calculateQuote);
+            baseBathroomSelect.addEventListener('change', calculateQuote);
+            extraChecks.forEach(check => check.addEventListener('change', calculateQuote));
+            freqRadios.forEach(radio => radio.addEventListener('change', calculateQuote));
+            chargeTaxCheck.addEventListener('change', calculateQuote);
+
+            // Variable Extra Listeners
+            wallsCheck.addEventListener('change', (e) => {
+                document.getElementById('wallsCounter').style.display = e.target.checked ? 'flex' : 'none';
+                calculateQuote();
+            });
+            wallPlus.addEventListener('click', () => {
+                state.wallsQty++;
+                wallQtySpan.innerText = state.wallsQty;
+                wallMinus.disabled = state.wallsQty <= 1;
+                if (wallsCheck.checked) calculateQuote();
+            });
+            wallMinus.addEventListener('click', () => {
+                if (state.wallsQty > 1) {
+                    state.wallsQty--;
+                    wallQtySpan.innerText = state.wallsQty;
+                    wallMinus.disabled = state.wallsQty <= 1;
+                    if (wallsCheck.checked) calculateQuote();
+                }
+            });
+
+            orgCheck.addEventListener('change', (e) => {
+                document.getElementById('orgCounter').style.display = e.target.checked ? 'flex' : 'none';
+                calculateQuote();
+            });
+            orgPlus.addEventListener('click', () => {
+                state.orgQty++;
+                orgQtySpan.innerText = state.orgQty;
+                orgMinus.disabled = state.orgQty <= 3;
+                if (orgCheck.checked) calculateQuote();
+            });
+            orgMinus.addEventListener('click', () => {
+                if (state.orgQty > 3) {
+                    state.orgQty--;
+                    orgQtySpan.innerText = state.orgQty;
+                    orgMinus.disabled = state.orgQty <= 3;
+                    if (orgCheck.checked) calculateQuote();
+                }
+            });
+
+            // Initial calculation
+            calculateQuote();
+            
+            // Expose lookup function to global scope
+            window.lookupProperty = (provider) => {
+                const address = document.getElementById('lookupAddress').value;
+                if (!address) {
+                    alert('Please enter an address first.');
+                    return;
+                }
+                const encodedAddress = encodeURIComponent(address);
+                if (provider === 'zillow') {
+                    window.open(`https://www.zillow.com/homes/${encodedAddress}_rb/`, '_blank');
+                }
+            };
+            
+            // Generate Print Layout
+            window.prepareAndPrint = () => {
+                // Populate Customer Info
+                const fname = document.getElementById('customerFirstName').value;
+                const lname = document.getElementById('customerLastName').value;
+                const fullName = (fname || lname) ? `${fname} ${lname}`.trim() : 'New Customer';
+                
+                document.getElementById('printCustName').innerText = fullName;
+                document.getElementById('printCustAddress').innerText = document.getElementById('lookupAddress').value || '';
+                document.getElementById('printCustPhone').innerText = document.getElementById('customerPhone').value || '';
+                document.getElementById('printCustEmail').innerText = document.getElementById('customerEmail').value || '';
+
+                // Date and Quote #
+                document.getElementById('printDate').innerText = new Date().toLocaleDateString('en-US');
+                document.getElementById('printQuoteNumber').innerText = Math.floor(Math.random() * 90000) + 10000;
+
+                // Line Items
+                const tbody = document.getElementById('printLineItems');
+                tbody.innerHTML = '';
+                
+                // Add Base Size
+                if (baseServiceSelect.value) {
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `<td>Base Property Clean:<br><span style="font-size:0.85rem; color:#666;">${baseServiceSelect.options[baseServiceSelect.selectedIndex].dataset.name}</span></td><td style="text-align: right; vertical-align: top;">${formatMoney(state.basePrice)}</td>`;
+                    tbody.appendChild(tr);
+                }
+
+                // Add Bathrooms
+                if (state.bathroomPrice > 0) {
+                    let trB = document.createElement('tr');
+                    trB.innerHTML = `<td>Bathrooms:<br><span style="font-size:0.85rem; color:#666;">${baseBathroomSelect.options[baseBathroomSelect.selectedIndex].dataset.name}</span></td><td style="text-align: right; vertical-align: top;">${formatMoney(state.bathroomPrice)}</td>`;
+                    tbody.appendChild(trB);
+                }
+
+                // Add Extras
+                state.extras.forEach(extra => {
+                    let trE = document.createElement('tr');
+                    trE.innerHTML = `<td>${extra.name}</td><td style="text-align: right;">${formatMoney(extra.price)}</td>`;
+                    tbody.appendChild(trE);
+                });
+
+                // Recalculate accurate print totals
+                let extrasTotal = state.extras.reduce((sum, e) => sum + e.price, 0);
+                const printSubtotalAmt = state.basePrice + state.bathroomPrice + extrasTotal;
+                const printDiscountAmt = printSubtotalAmt * state.discountPercent;
+                const printPreTaxTotal = printSubtotalAmt - printDiscountAmt;
+                const printTaxAmt = chargeTaxCheck.checked ? printPreTaxTotal * 0.07 : 0;
+                const printFinalTotal = printPreTaxTotal + printTaxAmt;
+
+                // Set Totals
+                document.getElementById('printSubtotal').innerText = formatMoney(printSubtotalAmt);
+
+                if (state.discountPercent > 0) {
+                    document.getElementById('printDiscountRow').style.display = 'flex';
+                    document.getElementById('printDiscountLabel').innerText = `${state.discountName} (-${state.discountPercent * 100}%)`;
+                    document.getElementById('printDiscountAmount').innerText = `-${formatMoney(printDiscountAmt)}`;
+                } else {
+                    document.getElementById('printDiscountRow').style.display = 'none';
+                }
+
+                if (printTaxAmt > 0) {
+                    document.getElementById('printTaxRow').style.display = 'flex';
+                    document.getElementById('printTaxAmount').innerText = formatMoney(printTaxAmt);
+                } else {
+                    document.getElementById('printTaxRow').style.display = 'none';
+                }
+
+                document.getElementById('printTotal').innerText = formatMoney(printFinalTotal);
+
+                // Trigger print
+                window.print();
+            };
+            
+            // Save Quote Data to Google Sheets Hub
+            window.saveToTracker = async () => {
+                const saveBtn = document.getElementById('saveQuoteBtn');
+                saveBtn.innerText = "⏳ Saving...";
+                saveBtn.disabled = true;
+
+                // REPLACE THIS URL with your deployed Google Apps Script Web App URL
+                const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyotuvbKTRXHjB_6WBpvj5FW0AUrqDKsbcNuqpaoVCHFFp2sedIZ4WPLxUEf08CaevKAA/exec";
+
+                // Gather data
+                const fname = document.getElementById('customerFirstName').value;
+                const lname = document.getElementById('customerLastName').value;
+                
+                // Recalculate accurate totals
+                let extrasTotal = state.extras.reduce((sum, e) => sum + e.price, 0);
+                const subtotal = state.basePrice + state.bathroomPrice + extrasTotal;
+                const discountAmount = subtotal * state.discountPercent;
+                const preTaxTotal = subtotal - discountAmount;
+                const taxAmount = chargeTaxCheck.checked ? preTaxTotal * 0.07 : 0;
+                const finalTotal = preTaxTotal + taxAmount;
+
+                const payload = {
+                    date: new Date().toLocaleDateString('en-US'),
+                    firstName: fname,
+                    lastName: lname,
+                    phone: document.getElementById('customerPhone').value,
+                    email: document.getElementById('customerEmail').value,
+                    address: document.getElementById('lookupAddress').value,
+                    baseProperty: baseServiceSelect.options[baseServiceSelect.selectedIndex]?.dataset.name || '',
+                    basePrice: state.basePrice,
+                    bathrooms: baseBathroomSelect.options[baseBathroomSelect.selectedIndex]?.dataset.name || '',
+                    bathroomPrice: state.bathroomPrice,
+                    extrasList: state.extras.map(e => e.name).join(', '),
+                    extrasTotal: extrasTotal,
+                    discountName: state.discountPercent > 0 ? state.discountName : 'None',
+                    discountAmount: discountAmount,
+                    taxAmount: taxAmount,
+                    totalQuote: finalTotal
+                };
+
+                try {
+                    // text/plain circumvents CORS preflight blocks from browser
+                    await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors', 
+                        headers: {
+                            'Content-Type': 'text/plain'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    alert("✅ Quote Successfully Saved to Google Sheets!");
+                } catch (error) {
+                    console.error("Error saving quote:", error);
+                    alert("❌ Failed to save quote. Check console.");
+                } finally {
+                    saveBtn.innerText = "💾 Save";
+                    saveBtn.disabled = false;
+                }
+            };
+        });
+    </script>
+</body>
+</html>

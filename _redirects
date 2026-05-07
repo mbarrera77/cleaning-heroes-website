@@ -1,0 +1,56 @@
+# Netlify redirects file for My Cleaning Heroes
+# Resolves SEO 404 errors from old website architecture
+
+# Clean URL support
+/faq                                  /faq.html                             301
+/faq/                                 /faq.html                             301
+/standard-cleaning                    /standard-cleaning.html               301
+/standard-cleaning/                   /standard-cleaning.html               301
+/deep-cleaning                        /deep-cleaning.html                   301
+/deep-cleaning/                       /deep-cleaning.html                   301
+/move-in-out-cleaning                 /move-in-out.html                     301
+/move-in-out-cleaning/                /move-in-out.html                     301
+/vacation-rental-cleaning             /vacation-rentals.html                301
+/vacation-rental-cleaning/            /vacation-rentals.html                301
+/commercial-cleaning                  /commercial-cleaning.html             301
+/commercial-cleaning/                 /commercial-cleaning.html             301
+/house-cleaning-pawleys-island        /house-cleaning-pawleys-island.html   301
+/house-cleaning-pawleys-island/       /house-cleaning-pawleys-island.html   301
+/house-cleaning-murrells-inlet        /house-cleaning-murrells-inlet.html   301
+/house-cleaning-murrells-inlet/       /house-cleaning-murrells-inlet.html   301
+/house-cleaning-myrtle-beach          /house-cleaning-myrtle-beach.html     301
+/house-cleaning-myrtle-beach/         /house-cleaning-myrtle-beach.html     301
+
+# Old Help/Contact pages map to modern FAQ
+/help       /faq.html      301
+/help/      /faq.html      301
+/help/*     /faq.html      301
+
+# Old Booking pages map to modern homepage booking flow
+/book       /index.html    301
+/book/      /index.html    301
+/book/*     /index.html    301
+
+# Old Service/City pages mapping
+/professional-house-cleaning-service-in-pawleys-island-2       /house-cleaning-pawleys-island.html    301
+/professional-house-cleaning-service-in-pawleys-island-2/      /house-cleaning-pawleys-island.html    301
+/professional-house-cleaning-service-in-pawleys-island-2/*     /house-cleaning-pawleys-island.html    301
+
+# Old Gift Cards mapping
+/gift-cards       /index.html    301
+/gift-cards/      /index.html    301
+/gift-cards/*     /index.html    301
+
+# Fix 404 for favicon
+/favicon.ico      /assets/images/favicon.png    200
+
+# Additional 404 fixes
+/author-sitemap.xml       /sitemap.xml    301
+/faq/can-i-request-special-tasks-or-extras/      /faq.html    301
+/cgi-bin/postnews.php     /index.html     301
+/postnews.php             /index.html     301
+/post-sitemap.xml         /sitemap.xml    301
+/faq/what-is-included-in-a-standard-cleaning/    /faq.html    301
+/faq/do-the-cleaning-professional-go-through-a-background-check/  /faq.html   301
+/post_tag-sitemap.xml     /sitemap.xml    301
+/gallery.html             /index.html     301
