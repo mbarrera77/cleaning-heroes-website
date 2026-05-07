@@ -54,13 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const forms = [
         { 
             id: 'lead-form', 
-            type: 'residential',
-            url: 'https://script.google.com/macros/s/AKfycbzizY-hkownFjkT5seKO6GRDpQ_e5bjScKsXVHk-9hKF8PK9hwbR45yESXrMaXeiljh/exec'
+            type: 'residential'
         },
         { 
             id: 'commercial-form', 
-            type: 'commercial',
-            url: 'https://script.google.com/macros/s/AKfycbxg7DSemUfjCHfeM74Bq9jXi46EZXFHJwSa0VeTX-ZQ5Qd1Q7xzBl34KNZoZOQ3q-o1/exec'
+            type: 'commercial'
         }
     ];
 
@@ -103,29 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                // Use a hidden iframe for the actual submission to fully bypass CORS issues
-                let iframe = document.getElementById('hidden_iframe');
-                if(!iframe) {
-                    iframe = document.createElement('iframe');
-                    iframe.name = 'hidden_iframe';
-                    iframe.id = 'hidden_iframe';
-                    iframe.style.display = 'none';
-                    document.body.appendChild(iframe);
-                    
-                    // When the iframe finishes loading the Google Apps Script invisible response
-                    iframe.onload = () => {
-                        // Confirm this button is currently processing a submit
-                        if(submitBtn.disabled === true) {
-                            formElement.classList.add('hidden');
-                            successMsg.classList.remove('hidden');
-                        }
-                    };
-                }
-
-                // Native submit
-                formElement.action = formConfig.url;
-                formElement.target = 'hidden_iframe';
-                formElement.submit();
+                formElement.classList.add('hidden');
+                successMsg.classList.remove('hidden');
             });
         }
     });
