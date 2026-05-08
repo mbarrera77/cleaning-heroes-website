@@ -20,6 +20,16 @@
 /house-cleaning-murrells-inlet/       /house-cleaning-murrells-inlet.html   301
 /house-cleaning-myrtle-beach          /house-cleaning-myrtle-beach.html     301
 /house-cleaning-myrtle-beach/         /house-cleaning-myrtle-beach.html     301
+/house-cleaning-georgetown-sc         /house-cleaning-georgetown-sc.html    301
+/house-cleaning-georgetown-sc/        /house-cleaning-georgetown-sc.html    301
+/house-cleaning-garden-city-sc        /house-cleaning-garden-city-sc.html   301
+/house-cleaning-garden-city-sc/       /house-cleaning-garden-city-sc.html   301
+/house-cleaning-surfside-beach-sc     /house-cleaning-surfside-beach-sc.html 301
+/house-cleaning-surfside-beach-sc/    /house-cleaning-surfside-beach-sc.html 301
+/deep-cleaning-murrells-inlet-sc      /deep-cleaning-murrells-inlet-sc.html 301
+/deep-cleaning-murrells-inlet-sc/     /deep-cleaning-murrells-inlet-sc.html 301
+/vacation-rental-cleaning-myrtle-beach-sc  /vacation-rental-cleaning-myrtle-beach-sc.html 301
+/vacation-rental-cleaning-myrtle-beach-sc/ /vacation-rental-cleaning-myrtle-beach-sc.html 301
 
 # Old Help/Contact pages map to modern FAQ
 /help       /faq.html      301
@@ -37,9 +47,32 @@
 /professional-house-cleaning-service-in-pawleys-island-2/*     /house-cleaning-pawleys-island.html    301
 
 # Old Gift Cards mapping
-/gift-cards       /index.html    301
-/gift-cards/      /index.html    301
-/gift-cards/*     /index.html    301
+/gift-cards       /gone.html     410
+/gift-cards/      /gone.html     410
+/gift-cards/*     /gone.html     410
+
+# Old WordPress and booking software pages
+/contact                              /index.html                  301
+/contact/                             /index.html                  301
+/blog                                 /gone.html                   410
+/blog/                                /gone.html                   410
+/blog/*                               /gone.html                   410
+/terms-and-conditions                 /gone.html                   410
+/terms-and-conditions/                /gone.html                   410
+/terms-and-conditions/*               /gone.html                   410
+/faq/how-do-i-use-my-credits          /gone.html                   410
+/faq/how-do-i-use-my-credits/         /gone.html                   410
+/faq/how-do-i-view-my-company-name-account   /gone.html            410
+/faq/how-do-i-view-my-company-name-account/  /gone.html            410
+/faq-categories/what-is-included      /faq.html                    301
+/faq-categories/what-is-included/     /faq.html                    301
+/faq-categories/what-is-included/*    /faq.html                    301
+/commercial-quotes                    /commercial-cleaning.html    301
+/commercial-quotes/                   /commercial-cleaning.html    301
+/commercial-quotes/*                  /commercial-cleaning.html    301
+/category/house-cleaning-services     /standard-cleaning.html      301
+/category/house-cleaning-services/    /standard-cleaning.html      301
+/category/house-cleaning-services/*   /standard-cleaning.html      301
 
 # Fix 404 for favicon
 /favicon.ico      /assets/images/favicon.png    200
