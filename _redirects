@@ -64,15 +64,29 @@
 /faq/how-do-i-use-my-credits/         /gone.html                   410
 /faq/how-do-i-view-my-company-name-account   /gone.html            410
 /faq/how-do-i-view-my-company-name-account/  /gone.html            410
+/faq/what-are-your-hours-of-operation        /faq.html             301
+/faq/what-are-your-hours-of-operation/       /faq.html             301
+/faq/page/2                           /faq.html                    301
+/faq/page/2/                          /faq.html                    301
 /faq-categories/what-is-included      /faq.html                    301
 /faq-categories/what-is-included/     /faq.html                    301
 /faq-categories/what-is-included/*    /faq.html                    301
+/faq-categories/trust-safety          /faq.html                    301
+/faq-categories/trust-safety/         /faq.html                    301
+/faq-categories/trust-safety/*        /faq.html                    301
 /commercial-quotes                    /commercial-cleaning.html    301
 /commercial-quotes/                   /commercial-cleaning.html    301
 /commercial-quotes/*                  /commercial-cleaning.html    301
 /category/house-cleaning-services     /standard-cleaning.html      301
 /category/house-cleaning-services/    /standard-cleaning.html      301
 /category/house-cleaning-services/*   /standard-cleaning.html      301
+/category/uncategorized               /gone.html                   410
+/category/uncategorized/              /gone.html                   410
+/category/uncategorized/*             /gone.html                   410
+/hello-world                          /gone.html                   410
+/hello-world/                         /gone.html                   410
+/title                                /gone.html                   410
+/title/                               /gone.html                   410
 
 # Fix 404 for favicon
 /favicon.ico      /assets/images/favicon.png    200
