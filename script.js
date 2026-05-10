@@ -62,13 +62,77 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     ];
 
+    const buildAddressId = (formElement, fieldName) => `${formElement.id}-${fieldName}`;
+
+    const syncFormattedAddress = (formElement) => {
+        const street = formElement.querySelector('[name="street"]')?.value?.trim() || '';
+        const apt = formElement.querySelector('[name="apt"]')?.value?.trim() || '';
+        const city = formElement.querySelector('[name="city"]')?.value?.trim() || '';
+        const state = formElement.querySelector('[name="state"]')?.value?.trim() || '';
+        const zip = formElement.querySelector('[name="zip"]')?.value?.trim() || '';
+        const addressInput = formElement.querySelector('[name="address"]');
+
+        if (addressInput) {
+            addressInput.value = [street, apt, city, state, zip].filter(Boolean).join(', ');
+        }
+    };
+
+    const enhanceResidentialAddressFields = (formElement) => {
+        if (!formElement || formElement.id !== 'lead-form') return;
+        if (formElement.querySelector('[name="street"]')) return;
+
+        const addressInput = formElement.querySelector('input[name="address"]');
+        if (!addressInput) return;
+
+        const addressGroup = addressInput.closest('.form-group');
+        if (!addressGroup) return;
+
+        addressInput.type = 'hidden';
+
+        addressGroup.innerHTML = `
+            <label>Service Address <span style="font-weight: 400; color: var(--text-light);">(optional)</span></label>
+            <p style="font-size: 0.85rem; color: var(--text-light); margin: 0 0 0.75rem;">Share what feels comfortable now. The more specific the location, the cleaner the quote we can build.</p>
+            <input type="hidden" name="address" value="">
+            <div class="form-row">
+                <div class="form-group" style="flex: 2; margin-bottom: 1rem;">
+                    <label for="${buildAddressId(formElement, 'street')}">Street Address</label>
+                    <input type="text" id="${buildAddressId(formElement, 'street')}" name="street" placeholder="123 Main Street">
+                </div>
+                <div class="form-group" style="flex: 1; margin-bottom: 1rem;">
+                    <label for="${buildAddressId(formElement, 'apt')}">Apt / Unit</label>
+                    <input type="text" id="${buildAddressId(formElement, 'apt')}" name="apt" placeholder="Unit 2">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="${buildAddressId(formElement, 'city')}">City</label>
+                    <input type="text" id="${buildAddressId(formElement, 'city')}" name="city" placeholder="Pawleys Island">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="${buildAddressId(formElement, 'state')}">State</label>
+                    <input type="text" id="${buildAddressId(formElement, 'state')}" name="state" placeholder="SC" maxlength="2">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="${buildAddressId(formElement, 'zip')}">ZIP</label>
+                    <input type="text" id="${buildAddressId(formElement, 'zip')}" name="zip" placeholder="29585">
+                </div>
+            </div>
+        `;
+
+        formElement.querySelectorAll('[name="street"], [name="apt"], [name="city"], [name="state"], [name="zip"]').forEach((field) => {
+            field.addEventListener('input', () => syncFormattedAddress(formElement));
+        });
+    };
+
     forms.forEach(formConfig => {
         const formElement = document.getElementById(formConfig.id);
         if (formElement) {
+            enhanceResidentialAddressFields(formElement);
             const successMsg = document.getElementById('form-success');
 
             formElement.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                syncFormattedAddress(formElement);
                 
                 // Disable button during submission
                 const submitBtn = formElement.querySelector('button[type="submit"]');
