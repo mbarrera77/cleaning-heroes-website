@@ -1,6 +1,9 @@
 # Netlify redirects file for My Cleaning Heroes
 # Resolves SEO 404 errors from old website architecture
 
+# Canonical domain
+https://www.mycleaningheroes.com/*    https://mycleaningheroes.com/:splat    301!
+
 # Clean URL support
 /faq                                  /faq.html                             301
 /faq/                                 /faq.html                             301
