@@ -142,6 +142,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const formData = new FormData(formElement);
                 const crmPayload = Object.fromEntries(formData.entries());
+                if (crmPayload.squareFootage && !crmPayload.square_footage) {
+                    crmPayload.square_footage = crmPayload.squareFootage;
+                }
                 crmPayload.formType = formConfig.type;
                 crmPayload.source = window.location.href;
 
