@@ -340,6 +340,53 @@ select:focus {
     font-size: 0.95rem;
 }
 
+.answer-grid,
+.fact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+}
+
+.answer-card,
+.fact-card {
+    background: var(--white);
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 24px rgba(92, 122, 135, 0.08);
+}
+
+.answer-card h3 {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.35;
+}
+
+.answer-card p,
+.fact-card span {
+    color: var(--text-light);
+    font-size: 0.98rem;
+}
+
+.fact-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.fact-card strong {
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.78rem;
+}
+
+.fact-card a {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
 /* Footer */
 footer {
     background-color: var(--primary-color);
