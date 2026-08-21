@@ -16,23 +16,60 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Service",
-      "name": "Vacation Rental Cleaning and Turnover Services",
-      "serviceType": "Vacation Rental Cleaning",
-      "provider": {
-        "@type": "HouseCleaningService",
-        "name": "Cleaning Heroes",
-        "url": "https://mycleaningheroes.com/",
-        "telephone": "+1-843-894-2440"
-      },
-      "areaServed": [
-        "Pawleys Island, SC",
-        "Murrells Inlet, SC",
-        "Myrtle Beach, SC",
-        "Garden City, SC",
-        "Surfside Beach, SC"
-      ],
-      "url": "https://mycleaningheroes.com/vacation-rentals.html"
+      "@graph": [
+        {
+          "@type": "Service",
+          "@id": "https://mycleaningheroes.com/vacation-rentals.html#service",
+          "name": "Vacation Rental Cleaning and Turnover Services",
+          "serviceType": "Vacation Rental Cleaning",
+          "provider": {
+            "@type": "HouseCleaningService",
+            "@id": "https://mycleaningheroes.com/#business",
+            "name": "Cleaning Heroes",
+            "url": "https://mycleaningheroes.com/",
+            "telephone": "+1-843-894-2440"
+          },
+          "areaServed": [
+            "Pawleys Island, SC",
+            "Litchfield, SC",
+            "Murrells Inlet, SC",
+            "Myrtle Beach, SC",
+            "Garden City, SC",
+            "Surfside Beach, SC"
+          ],
+          "url": "https://mycleaningheroes.com/vacation-rentals.html"
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://mycleaningheroes.com/vacation-rentals.html#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Does Cleaning Heroes provide Airbnb turnover cleaning?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Cleaning Heroes provides Airbnb and VRBO turnover cleaning for short-term rentals, condos, second homes, and beach-area guest properties."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What areas do you serve for vacation rental cleaning?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Cleaning Heroes provides vacation rental turnover cleaning in Pawleys Island, Litchfield, Murrells Inlet, Myrtle Beach, Garden City, Surfside Beach, Georgetown, and nearby coastal communities."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can you clean between checkout and check-in?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Cleaning Heroes can schedule vacation rental turnovers around checkout and next check-in windows, depending on property details, availability, and service scope."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -97,6 +134,7 @@
                     use our commercial cleaning quote form or contact our team directly.</p>
                 <p style="margin-bottom: 0; font-size: 1.05rem;">Our service includes everything from our Standard
                     Clean, with added attention to detail and turnover needs:</p>
+                <p style="margin: 1rem 0 0; font-size: 1.05rem;"><a href="vacation-rental-turnover-cleaning.html" style="color: var(--primary-color); font-weight: 700;">See our full vacation rental turnover cleaning guide</a> for Airbnb, VRBO, condo, and coastal rental cleaning details.</p>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
@@ -146,6 +184,28 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="service-details" style="background-color: var(--bg-color);">
+        <div class="container fade-in faq-container">
+            <h2 style="margin-bottom: 2rem;">Vacation Rental Cleaning FAQ</h2>
+            <details class="faq-item" open>
+                <summary>Does Cleaning Heroes provide Airbnb turnover cleaning?</summary>
+                <div class="faq-answer">Yes. Cleaning Heroes provides Airbnb and VRBO turnover cleaning for short-term rentals, condos, second homes, and beach-area guest properties.</div>
+            </details>
+            <details class="faq-item">
+                <summary>What areas do you serve for vacation rental cleaning?</summary>
+                <div class="faq-answer">Cleaning Heroes provides vacation rental turnover cleaning in Pawleys Island, Litchfield, Murrells Inlet, Myrtle Beach, Garden City, Surfside Beach, Georgetown, and nearby coastal communities.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Can you clean between checkout and check-in?</summary>
+                <div class="faq-answer">Yes. Cleaning Heroes can schedule vacation rental turnovers around checkout and next check-in windows, depending on property details, availability, and service scope.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Where can I learn more about turnover cleaning?</summary>
+                <div class="faq-answer">Visit our <a href="vacation-rental-turnover-cleaning.html">vacation rental turnover cleaning guide</a> for more detail on guest-ready reset tasks, owner communication, service areas, and random checkout-date scheduling.</div>
+            </details>
         </div>
     </section>
 
