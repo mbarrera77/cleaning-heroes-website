@@ -50,6 +50,73 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 4. Form Submission Handling
     const CRM_INTAKE_URL = 'https://cleaning-heroes-crm.vercel.app/api/intake/quote';
+    const TURNSTILE_SITE_KEY = '0x4AAAAAAFBbvfihGi-MWMqv';
+    let turnstileScriptPromise;
+
+    const loadTurnstile = () => {
+        if (window.turnstile) return Promise.resolve(window.turnstile);
+        if (turnstileScriptPromise) return turnstileScriptPromise;
+
+        turnstileScriptPromise = new Promise((resolve, reject) => {
+            const existingScript = document.querySelector('script[data-cleaning-heroes-turnstile]');
+            const script = existingScript || document.createElement('script');
+
+            const handleReady = () => {
+                if (window.turnstile) resolve(window.turnstile);
+                else reject(new Error('Security verification did not load'));
+            };
+
+            if (existingScript) {
+                existingScript.addEventListener('load', handleReady, { once: true });
+                existingScript.addEventListener('error', reject, { once: true });
+                return;
+            }
+
+            script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+            script.async = true;
+            script.defer = true;
+            script.dataset.cleaningHeroesTurnstile = 'true';
+            script.addEventListener('load', handleReady, { once: true });
+            script.addEventListener('error', reject, { once: true });
+            document.head.appendChild(script);
+        });
+
+        return turnstileScriptPromise;
+    };
+
+    const addSecurityVerification = async (formElement) => {
+        const submitBtn = formElement.querySelector('button[type="submit"]');
+        if (!submitBtn) return;
+
+        submitBtn.disabled = true;
+        const securityWrap = document.createElement('div');
+        securityWrap.className = 'quote-form-security';
+        securityWrap.setAttribute('aria-label', 'Security verification');
+        securityWrap.style.margin = '0.75rem 0 1rem';
+        formElement.insertBefore(securityWrap, submitBtn);
+
+        try {
+            const turnstile = await loadTurnstile();
+            formElement.dataset.turnstileWidgetId = turnstile.render(securityWrap, {
+                sitekey: TURNSTILE_SITE_KEY,
+                callback: (token) => {
+                    formElement.dataset.turnstileToken = token;
+                    submitBtn.disabled = false;
+                },
+                'expired-callback': () => {
+                    formElement.dataset.turnstileToken = '';
+                    submitBtn.disabled = true;
+                },
+                'error-callback': () => {
+                    formElement.dataset.turnstileToken = '';
+                    submitBtn.disabled = true;
+                }
+            });
+        } catch (error) {
+            console.error('Security verification error:', error);
+            securityWrap.textContent = 'Security verification is temporarily unavailable. Please call or text us for help.';
+        }
+    };
 
     const forms = [
         { 
@@ -128,11 +195,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const formElement = document.getElementById(formConfig.id);
         if (formElement) {
             enhanceResidentialAddressFields(formElement);
+            addSecurityVerification(formElement);
             const successMsg = document.getElementById('form-success');
 
             formElement.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 syncFormattedAddress(formElement);
+
+                const turnstileToken = formElement.dataset.turnstileToken;
+                if (!turnstileToken) {
+                    alert('Please complete the security check before requesting your quote.');
+                    return;
+                }
                 
                 // Disable button during submission
                 const submitBtn = formElement.querySelector('button[type="submit"]');
@@ -147,6 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 crmPayload.formType = formConfig.type;
                 crmPayload.source = window.location.href;
+                crmPayload.turnstileToken = turnstileToken;
 
                 try {
                     const crmResponse = await fetch(CRM_INTAKE_URL, {
@@ -162,8 +237,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 } catch (error) {
                     console.error('CRM intake error:', error);
+                    const widgetId = formElement.dataset.turnstileWidgetId;
+                    if (window.turnstile && widgetId) window.turnstile.reset(widgetId);
+                    formElement.dataset.turnstileToken = '';
                     submitBtn.innerText = originalButtonText;
-                    submitBtn.disabled = false;
+                    submitBtn.disabled = true;
                     alert('Sorry, we could not send your request. Please call or text us and we will help right away.');
                     return;
                 }
