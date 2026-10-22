@@ -247,19 +247,62 @@
             </div>
             <div class="form-box glass">
                 <form id="lead-form" action="#" method="POST">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required placeholder="John Doe">
+                    <div class="quote-form-progress" aria-label="Quote request progress">
+                        <div class="quote-form-progress-copy">
+                            <span data-quote-step-label>Step 1 of 2</span>
+                            <span>About a minute</span>
+                        </div>
+                        <div class="quote-form-progress-track" aria-hidden="true">
+                            <span data-quote-progress></span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required placeholder="john@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="(843) 555-5555">
-                    </div>
-                    <div class="form-row">
+
+                    <section class="quote-form-step" data-quote-step="1" aria-labelledby="quote-step-one-title">
+                        <div class="quote-form-heading">
+                            <p class="quote-form-eyebrow">Let’s start with the basics</p>
+                            <h3 id="quote-step-one-title" tabindex="-1">Tell us how we can help</h3>
+                            <p>Share a few details and we’ll build a quote for your home.</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required autocomplete="name" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required autocomplete="tel" inputmode="tel" placeholder="(843) 555-5555">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="lead-form-zip">ZIP Code</label>
+                                <input type="text" id="lead-form-zip" name="zip" required autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}(-[0-9]{4})?" placeholder="29585">
+                            </div>
+                            <div class="form-group">
+                                <label for="service">Service Type</label>
+                                <select id="service" name="service" required>
+                                    <option value="" disabled selected>Select a Service</option>
+                                    <option value="Standard Cleaning">Standard Cleaning</option>
+                                    <option value="Deep Cleaning">Deep Cleaning</option>
+                                    <option value="Move In/Out Cleaning">Move In/Out Cleaning</option>
+                                    <option value="Vacation Rental Turnover">Vacation Rental Turnover</option>
+                                    <option value="Post-Construction Cleaning">Post-Construction Cleaning</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block quote-form-next" data-quote-next>Continue <span aria-hidden="true">→</span></button>
+                        <p class="form-note">No obligation. We’ll only use this to prepare your quote.</p>
+                    </section>
+
+                    <section class="quote-form-step" data-quote-step="2" aria-labelledby="quote-step-two-title" hidden>
+                        <div class="quote-form-heading">
+                            <p class="quote-form-eyebrow">Almost there</p>
+                            <h3 id="quote-step-two-title" tabindex="-1">Tell us about your home</h3>
+                            <p>These details help us give you accurate pricing.</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required autocomplete="email" placeholder="john@example.com">
+                        </div>
+                        <div class="form-row">
                         <div class="form-group">
                             <label for="bedrooms">Bedrooms</label>
                             <select id="bedrooms" name="bedrooms" required>
@@ -286,24 +329,39 @@
                                 <option value="7">7</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Service Address <span style="font-weight: 400; color: var(--text-light);">(optional)</span></label>
-                        <input type="text" id="address" name="address" placeholder="Where should our heroes report?">
-                    </div>
-                    <div class="form-group">
-                        <label for="service">Service Needed</label>
-                        <select id="service" name="service" required>
-                            <option value="" disabled selected>Select a Service</option>
-                            <option value="Standard Cleaning">Standard Cleaning</option>
-                            <option value="Deep Cleaning">Deep Cleaning</option>
-                            <option value="Move In/Out Cleaning">Move In/Out Cleaning</option>
-                            <option value="Vacation Rental Turnover">Vacation Rental Turnover</option>
-                            <option value="Post-Construction Cleaning">Post-Construction Cleaning</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Request Quote</button>
-                    <p class="form-note">By submitting, you agree to receive a call/text with your pricing.</p>
+                        </div>
+                        <div class="form-group quote-address-group">
+                            <label>Service Address <span class="optional-label">(optional)</span></label>
+                            <p class="quote-address-help">Share what feels comfortable now. Your ZIP from step one is already included.</p>
+                            <input type="hidden" id="address" name="address" value="">
+                            <div class="form-row quote-address-primary">
+                                <div class="form-group">
+                                    <label for="lead-form-street">Street Address</label>
+                                    <input type="text" id="lead-form-street" name="street" autocomplete="street-address" placeholder="123 Main Street">
+                                </div>
+                                <div class="form-group quote-unit-field">
+                                    <label for="lead-form-apt">Apt / Unit</label>
+                                    <input type="text" id="lead-form-apt" name="apt" autocomplete="address-line2" placeholder="Unit 2">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="lead-form-city">City</label>
+                                    <input type="text" id="lead-form-city" name="city" autocomplete="address-level2" placeholder="Pawleys Island">
+                                </div>
+                                <div class="form-group quote-state-field">
+                                    <label for="lead-form-state">State</label>
+                                    <input type="text" id="lead-form-state" name="state" autocomplete="address-level1" placeholder="SC" maxlength="2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quote-form-security" aria-label="Security verification"></div>
+                        <div class="quote-form-actions">
+                            <button type="button" class="btn quote-form-back" data-quote-back><span aria-hidden="true">←</span> Back</button>
+                            <button type="submit" class="btn btn-primary quote-form-submit">Request Quote</button>
+                        </div>
+                        <p class="form-note">By submitting, you agree to receive a call/text with your pricing.</p>
+                    </section>
                 </form>
                 <div id="form-success" class="hidden">
                     <h3>🎉 Thank You!</h3>
@@ -549,7 +607,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=20261022-reviews"></script>
+    <script src="script.js?v=20261022-two-step-quote"></script>
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
         var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();

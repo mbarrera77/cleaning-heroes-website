@@ -348,6 +348,136 @@ select:focus {
     margin-top: 1rem;
 }
 
+.quote-form-progress {
+    margin-bottom: 1.75rem;
+}
+
+.quote-form-progress-copy {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.55rem;
+    color: var(--text-light);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.quote-form-progress-copy [data-quote-step-label] {
+    color: var(--primary-color);
+}
+
+.quote-form-progress-track {
+    height: 7px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e8eef0;
+}
+
+.quote-form-progress-track span {
+    display: block;
+    width: 50%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--secondary-color), #f8b916);
+    transition: width 240ms ease;
+}
+
+.quote-form-progress-track span.is-complete {
+    width: 100%;
+}
+
+.quote-form-step[hidden] {
+    display: none;
+}
+
+.quote-form-heading {
+    margin-bottom: 1.5rem;
+}
+
+.quote-form-heading h3 {
+    margin: 0 0 0.4rem;
+    color: var(--primary-color);
+    font-size: 1.65rem;
+    line-height: 1.2;
+}
+
+.quote-form-heading h3:focus {
+    outline: none;
+}
+
+.quote-form-heading > p:last-child {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.quote-form-eyebrow {
+    margin: 0 0 0.35rem;
+    color: #9a7200;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.quote-form-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+}
+
+.quote-address-group {
+    padding-top: 0.25rem;
+}
+
+.optional-label {
+    color: var(--text-light);
+    font-weight: 400;
+}
+
+.quote-address-help {
+    margin: -0.15rem 0 0.9rem;
+    color: var(--text-light);
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.quote-address-group .form-group {
+    margin-bottom: 1rem;
+}
+
+.quote-address-primary {
+    grid-template-columns: 2fr 1fr;
+}
+
+.quote-state-field {
+    max-width: 8rem;
+}
+
+.quote-form-actions {
+    display: grid;
+    grid-template-columns: minmax(7rem, 0.4fr) 1fr;
+    gap: 0.75rem;
+    align-items: stretch;
+}
+
+.quote-form-actions .btn {
+    width: 100%;
+}
+
+.quote-form-back {
+    border: 1px solid rgba(92, 122, 135, 0.35);
+    background: #f7fafb;
+    color: var(--primary-color);
+}
+
+.quote-form-back:hover {
+    border-color: var(--primary-color);
+    background: #eef4f5;
+}
+
 #form-success {
     text-align: center;
     padding: 2rem 0;
@@ -671,6 +801,7 @@ footer {
 
     .form-box {
         order: 2;
+        scroll-margin-top: 90px;
     }
 
     .features-list,
@@ -696,6 +827,24 @@ footer {
     .glass {
         padding: 1.5rem;
         border-radius: 18px;
+    }
+
+    .quote-form-heading h3 {
+        font-size: 1.45rem;
+    }
+
+    .quote-form-step > .form-row,
+    .quote-address-group .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .quote-state-field {
+        max-width: none;
+    }
+
+    .quote-form-actions {
+        grid-template-columns: 0.7fr 1.3fr;
     }
 
     .footer-info p {

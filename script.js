@@ -414,37 +414,48 @@ document.addEventListener("DOMContentLoaded", () => {
         return turnstileScriptPromise;
     };
 
-    const addSecurityVerification = async (formElement) => {
+    const addSecurityVerification = (formElement) => {
         const submitBtn = formElement.querySelector('button[type="submit"]');
         if (!submitBtn) return;
 
         submitBtn.disabled = true;
-        const securityWrap = document.createElement('div');
-        securityWrap.className = 'quote-form-security';
+        const securityWrap = formElement.querySelector('.quote-form-security') || document.createElement('div');
+        securityWrap.classList.add('quote-form-security');
         securityWrap.setAttribute('aria-label', 'Security verification');
         securityWrap.style.margin = '0.75rem 0 1rem';
-        formElement.insertBefore(securityWrap, submitBtn);
+        if (!securityWrap.isConnected) submitBtn.parentNode.insertBefore(securityWrap, submitBtn);
 
-        try {
-            const turnstile = await loadTurnstile();
-            formElement.dataset.turnstileWidgetId = turnstile.render(securityWrap, {
-                sitekey: TURNSTILE_SITE_KEY,
-                callback: (token) => {
-                    formElement.dataset.turnstileToken = token;
-                    submitBtn.disabled = false;
-                },
-                'expired-callback': () => {
-                    formElement.dataset.turnstileToken = '';
-                    submitBtn.disabled = true;
-                },
-                'error-callback': () => {
-                    formElement.dataset.turnstileToken = '';
-                    submitBtn.disabled = true;
-                }
-            });
-        } catch (error) {
-            console.error('Security verification error:', error);
-            securityWrap.textContent = 'Security verification is temporarily unavailable. Please call or text us for help.';
+        const mountSecurityVerification = async () => {
+            if (securityWrap.dataset.mounted === 'true') return;
+            securityWrap.dataset.mounted = 'true';
+            try {
+                const turnstile = await loadTurnstile();
+                formElement.dataset.turnstileWidgetId = turnstile.render(securityWrap, {
+                    sitekey: TURNSTILE_SITE_KEY,
+                    callback: (token) => {
+                        formElement.dataset.turnstileToken = token;
+                        submitBtn.disabled = false;
+                    },
+                    'expired-callback': () => {
+                        formElement.dataset.turnstileToken = '';
+                        submitBtn.disabled = true;
+                    },
+                    'error-callback': () => {
+                        formElement.dataset.turnstileToken = '';
+                        submitBtn.disabled = true;
+                    }
+                });
+            } catch (error) {
+                console.error('Security verification error:', error);
+                securityWrap.textContent = 'Security verification is temporarily unavailable. Please call or text us for help.';
+            }
+        };
+
+        const secondStep = formElement.querySelector('[data-quote-step="2"]');
+        if (secondStep?.hidden) {
+            formElement.addEventListener('quote:show-second-step', mountSecurityVerification, { once: true });
+        } else {
+            mountSecurityVerification();
         }
     };
 
@@ -521,10 +532,74 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
+    const setupResidentialQuoteSteps = (formElement) => {
+        if (!formElement || formElement.id !== 'lead-form') return;
+
+        const steps = Array.from(formElement.querySelectorAll('[data-quote-step]'));
+        const nextButton = formElement.querySelector('[data-quote-next]');
+        const backButton = formElement.querySelector('[data-quote-back]');
+        const progress = formElement.querySelector('[data-quote-progress]');
+        const stepLabel = formElement.querySelector('[data-quote-step-label]');
+        if (steps.length !== 2 || !nextButton || !backButton) return;
+        formElement.dataset.quoteStepsReady = 'true';
+
+        let activeStep = 1;
+
+        const showStep = (stepNumber, { focusHeading = false } = {}) => {
+            activeStep = stepNumber;
+            steps.forEach((step) => {
+                step.hidden = Number(step.dataset.quoteStep) !== stepNumber;
+            });
+            progress?.classList.toggle('is-complete', stepNumber === 2);
+            if (stepLabel) stepLabel.textContent = `Step ${stepNumber} of 2`;
+            if (stepNumber === 2) formElement.dispatchEvent(new CustomEvent('quote:show-second-step'));
+
+            if (focusHeading) {
+                const heading = formElement.querySelector(`[data-quote-step="${stepNumber}"] h3`);
+                heading?.focus({ preventScroll: true });
+                if (window.matchMedia('(max-width: 768px)').matches) {
+                    formElement.closest('.form-box')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        };
+
+        const validateStepOne = () => {
+            const requiredFields = steps[0].querySelectorAll('input[required], select[required]');
+            const firstInvalid = Array.from(requiredFields).find((field) => !field.checkValidity());
+            if (!firstInvalid) return true;
+            firstInvalid.reportValidity();
+            firstInvalid.focus();
+            return false;
+        };
+
+        nextButton.addEventListener('click', () => {
+            if (validateStepOne()) showStep(2, { focusHeading: true });
+        });
+
+        backButton.addEventListener('click', () => showStep(1, { focusHeading: true }));
+
+        formElement.addEventListener('keydown', (event) => {
+            if (activeStep !== 1 || event.key !== 'Enter' || event.target instanceof HTMLTextAreaElement) return;
+            event.preventDefault();
+            if (validateStepOne()) showStep(2, { focusHeading: true });
+        });
+
+        formElement.addEventListener('submit', (event) => {
+            if (!validateStepOne()) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                showStep(1, { focusHeading: true });
+            }
+        });
+
+        showStep(1);
+    };
+
     forms.forEach(formConfig => {
         const formElement = document.getElementById(formConfig.id);
         if (formElement) {
             enhanceResidentialAddressFields(formElement);
+            setupResidentialQuoteSteps(formElement);
             addSecurityVerification(formElement);
             const successMsg = document.getElementById('form-success');
             let formStarted = false;
