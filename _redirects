@@ -15,6 +15,7 @@ https://www.mycleaningheroes.com/*    https://mycleaningheroes.com/:splat    301
 /icon.png                             https://cleaning-heroes-crm.vercel.app/icon.png          200
 /manifest.webmanifest                 https://cleaning-heroes-crm.vercel.app/manifest.webmanifest 200
 /api/growth/*                         https://cleaning-heroes-crm.vercel.app/api/growth/:splat 200
+/api/public/google-reviews            https://cleaning-heroes-crm.vercel.app/api/public/google-reviews 200
 
 # Clean URL support
 /faq                                  /faq.html                             301

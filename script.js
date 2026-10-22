@@ -149,6 +149,97 @@ document.addEventListener("DOMContentLoaded", () => {
         if (href.toLowerCase().startsWith('sms:')) trackConversion('text_click', { action: 'text_link' });
     });
 
+    // Keep Google review proof current while preserving a verified fallback.
+    const GOOGLE_LOGO_URL = 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg';
+    const GOOGLE_REVIEWS_URL = 'https://www.google.com/maps/place/Cleaning+Heroes/@33.4849946,-79.0991042,17z/data=!4m8!3m7!1s0x6e2b36eb16aae05:0xbc61fbd2bdd8e162!8m2!3d33.4849946!4d-79.0991042!9m1!1b1!16s%2Fg%2F11xkc6v2x5';
+    const reviewFallback = {
+        rating: 5,
+        reviewCount: 17,
+        reviewsUrl: GOOGLE_REVIEWS_URL,
+        reviews: [
+            { author: 'nancy merrill', rating: 5, relativeDate: '7 months ago', text: 'Thx to the Cleaning Heroes team for such a great job cleaning our home. They were on time, polite, hard working and thorough. Also, the owner stayed in contact and made sure everything was done to our satisfaction. I would definitely recommend Cleaning Heroes!' },
+            { author: 'Robert Judd', rating: 5, relativeDate: '5 months ago', text: 'Cleaning heros came to my house today in Pawlyes Plantation. Three nice and totally competent ladies. They worked 8 solid hours and I never saw them on break. Could not be happier or more impressed. My house is going up for sale soon, and it looks prime. Thank you heros.' },
+            { author: 'David De Palma', rating: 5, relativeDate: '6 months ago', text: 'We’ve working with Cleaning Hero’s out of Pawley’s Island for our Airbnb, and they’ve been absolutely outstanding.' }
+        ]
+    };
+
+    const reviewDate = (review) => {
+        if (review.publishTime) {
+            const date = new Date(review.publishTime);
+            if (!Number.isNaN(date.getTime())) return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+        return review.relativeDate || 'Google review';
+    };
+
+    const updateGoogleRatingBadges = (snapshot) => {
+        const candidates = [...document.querySelectorAll('.badge')].filter((badge) => badge.hasAttribute('data-google-rating-badge') || /5\.0\s*\/\s*5/i.test(badge.textContent || ''));
+        candidates.forEach((badge) => {
+            let link = badge;
+            if (badge.tagName !== 'A') {
+                link = document.createElement('a');
+                link.className = `${badge.className} google-rating-badge`;
+                badge.replaceWith(link);
+            }
+            link.dataset.googleRatingBadge = '';
+            link.href = snapshot.reviewsUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.setAttribute('aria-label', `Read our ${snapshot.reviewCount} Google reviews`);
+            link.replaceChildren();
+            const logo = document.createElement('img');
+            logo.src = GOOGLE_LOGO_URL; logo.alt = ''; logo.width = 19; logo.height = 19;
+            const copy = document.createElement('span');
+            copy.textContent = `${Number(snapshot.rating).toFixed(1)} / 5 · ${snapshot.reviewCount} reviews`;
+            link.append(logo, copy);
+        });
+    };
+
+    const createReviewCard = (review) => {
+        const card = document.createElement('article');
+        card.className = 'review-item';
+        const stars = document.createElement('div');
+        stars.className = 'stars';
+        stars.setAttribute('aria-label', `${review.rating || 5} out of 5 stars`);
+        stars.textContent = '★★★★★';
+        const quote = document.createElement('p');
+        quote.textContent = `“${review.text}”`;
+        const meta = document.createElement('div');
+        meta.className = 'review-meta';
+        const author = document.createElement('strong');
+        author.textContent = review.author || 'Google reviewer';
+        const date = document.createElement('span');
+        date.textContent = `${reviewDate(review)} · Google`;
+        meta.append(author, date);
+        card.append(stars, quote, meta);
+        return card;
+    };
+
+    const applyGoogleReviews = (snapshot) => {
+        const safeSnapshot = snapshot && Number(snapshot.rating) && Number(snapshot.reviewCount) ? snapshot : reviewFallback;
+        updateGoogleRatingBadges(safeSnapshot);
+        document.querySelectorAll('[data-google-rating]').forEach((node) => { node.textContent = Number(safeSnapshot.rating).toFixed(1); });
+        document.querySelectorAll('[data-google-review-count]').forEach((node) => { node.textContent = `${safeSnapshot.reviewCount} reviews`; });
+        document.querySelectorAll('[data-google-reviews-link]').forEach((link) => { link.href = safeSnapshot.reviewsUrl; });
+
+        const reviews = Array.isArray(safeSnapshot.reviews) && safeSnapshot.reviews.length ? safeSnapshot.reviews : reviewFallback.reviews;
+        const featured = reviews[0];
+        const featuredText = document.querySelector('[data-featured-review-text]');
+        const featuredAuthor = document.querySelector('[data-featured-review-author]');
+        const featuredDate = document.querySelector('[data-featured-review-date]');
+        if (featuredText) featuredText.textContent = `“${featured.text}”`;
+        if (featuredAuthor) featuredAuthor.textContent = featured.author;
+        if (featuredDate) featuredDate.textContent = reviewDate(featured);
+
+        const grid = document.querySelector('[data-google-reviews-grid]');
+        if (grid) grid.replaceChildren(...reviews.slice(0, 5).map(createReviewCard));
+    };
+
+    applyGoogleReviews(reviewFallback);
+    fetch('/api/public/google-reviews', { headers: { Accept: 'application/json' } })
+        .then((response) => response.ok ? response.json() : Promise.reject(new Error('Review feed unavailable')))
+        .then(applyGoogleReviews)
+        .catch(() => { /* the verified fallback remains visible */ });
+
     // 2. Smooth Scrolling for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {

@@ -194,7 +194,10 @@
                     Fighting Grime, Restoring Shine!</h3>
                 <p>Cleaning Heroes provides recurring house cleaning, deep cleaning, move-in and move-out cleaning, vacation rental turnovers, and commercial cleaning for homes, rentals, and businesses across the Grand Strand and Waccamaw Neck service area.</p>
                 <div class="trust-badges">
-                    <span class="badge">⭐ 5.0 / 5 (12 Reviews)</span>
+                    <a class="badge google-rating-badge" data-google-rating-badge href="https://www.google.com/maps/place/Cleaning+Heroes/@33.4849946,-79.0991042,17z/data=!4m8!3m7!1s0x6e2b36eb16aae05:0xbc61fbd2bdd8e162!8m2!3d33.4849946!4d-79.0991042!9m1!1b1!16s%2Fg%2F11xkc6v2x5" target="_blank" rel="noopener noreferrer" aria-label="Read our 17 Google reviews">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width="19" height="19">
+                        <span><strong data-google-rating>5.0</strong> / 5 · <span data-google-review-count>17 reviews</span></span>
+                    </a>
                     <span class="badge">✨ Vetted & Trusted</span>
                 </div>
                 <a href="#quote-section" class="btn btn-large btn-primary mt-2">Request Your Custom Price</a>
@@ -214,6 +217,16 @@
                     <li>✔️ Locally owned & husband-and-wife run</li>
                     <li>✔️ Save time and relax</li>
                 </ul>
+
+                <aside class="featured-google-review" id="featured-google-review" aria-label="Featured Google review">
+                    <div class="featured-review-topline">
+                        <span class="google-wordmark"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width="20" height="20"> Google Review</span>
+                        <span class="review-stars" aria-label="5 out of 5 stars">★★★★★</span>
+                    </div>
+                    <blockquote data-featured-review-text>“Thx to the Cleaning Heroes team for such a great job cleaning our home. They were on time, polite, hard working and thorough. Also, the owner stayed in contact and made sure everything was done to our satisfaction.”</blockquote>
+                    <div class="featured-review-byline"><strong data-featured-review-author>nancy merrill</strong><span data-featured-review-date>7 months ago</span></div>
+                    <a data-google-reviews-link href="https://www.google.com/maps/place/Cleaning+Heroes/@33.4849946,-79.0991042,17z/data=!4m8!3m7!1s0x6e2b36eb16aae05:0xbc61fbd2bdd8e162!8m2!3d33.4849946!4d-79.0991042!9m1!1b1!16s%2Fg%2F11xkc6v2x5" target="_blank" rel="noopener noreferrer">Read all reviews on Google <span aria-hidden="true">↗</span></a>
+                </aside>
 
                 <div
                     style="margin-top: 3rem; background-color: rgba(92, 122, 135, 0.08); padding: 1.5rem; border-left: 4px solid var(--secondary-color); border-radius: 4px;">
@@ -451,44 +464,34 @@
         </div>
     </section>
 
-    <!-- Reviews Carousel -->
-    <section class="reviews-marquee">
-        <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 3rem; font-size: 2.5rem;">See What
-            Our Clients Say</h2>
-        <div class="marquee-track">
-            <!-- Review 1 -->
-            <div class="review-item">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p>"Thx to the Cleaning Heroes team for such a great job cleaning our home. They were on time, polite,
-                    hard working and thorough. Also, the owner stayed in contact and made sure everything was done to
-                    our satisfaction."</p>
-                <div class="author">- Nancy Merrill</div>
+    <!-- Google Reviews -->
+    <section class="reviews-marquee google-reviews-section" id="google-reviews">
+        <div class="container">
+            <div class="reviews-heading">
+                <div>
+                    <span class="reviews-kicker"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width="22" height="22"> VERIFIED GOOGLE REVIEWS</span>
+                    <h2>Kind words from homes we’ve helped.</h2>
+                    <p><strong data-google-rating>5.0</strong> out of 5 from <strong data-google-review-count>17 reviews</strong> on Google.</p>
+                </div>
+                <a class="btn btn-primary" data-google-reviews-link href="https://www.google.com/maps/place/Cleaning+Heroes/@33.4849946,-79.0991042,17z/data=!4m8!3m7!1s0x6e2b36eb16aae05:0xbc61fbd2bdd8e162!8m2!3d33.4849946!4d-79.0991042!9m1!1b1!16s%2Fg%2F11xkc6v2x5" target="_blank" rel="noopener noreferrer">View all Google reviews <span aria-hidden="true">↗</span></a>
             </div>
-            <!-- Review 2 -->
-            <div class="review-item">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p>"I recently hired Cleaning Heroes for the cleaning of one of our Airbnb properties and I was really
-                    impressed by their work. They did an amazing deep clean and left the house looking amazing. I highly
-                    recommend their services."</p>
-                <div class="author">- Rosemarie Daizi</div>
+            <div class="google-reviews-grid" data-google-reviews-grid>
+                <article class="review-item">
+                    <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                    <p>“Thx to the Cleaning Heroes team for such a great job cleaning our home. They were on time, polite, hard working and thorough. Also, the owner stayed in contact and made sure everything was done to our satisfaction.”</p>
+                    <div class="review-meta"><strong>nancy merrill</strong><span>7 months ago · Google</span></div>
+                </article>
+                <article class="review-item">
+                    <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                    <p>“Cleaning heros came to my house today in Pawlyes Plantation. Three nice and totally competent ladies. They worked 8 solid hours and I never saw them on break. Could not be happier or more impressed.”</p>
+                    <div class="review-meta"><strong>Robert Judd</strong><span>5 months ago · Google</span></div>
+                </article>
+                <article class="review-item">
+                    <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                    <p>“We’ve working with Cleaning Hero’s out of Pawley’s Island for our Airbnb, and they’ve been absolutely outstanding.”</p>
+                    <div class="review-meta"><strong>David De Palma</strong><span>6 months ago · Google</span></div>
+                </article>
             </div>
-            <!-- Review 3 -->
-            <div class="review-item">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p>"Absolutely outstanding service! The team arrived on time, worked efficiently, and left my home
-                    looking showroom-ready. Every corner, surface, and hard-to-reach spot looked brand new. Highly
-                    recommend this company!"</p>
-                <div class="author">- Jessica Rodriguez</div>
-            </div>
-            <!-- Review 4 -->
-            <div class="review-item">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p>"Janette and her team are amazing to work with. Extremely thorough, very fairly priced, punctual, and
-                    friendly. We could not be more pleased and our members have been very excited with their
-                    performance."</p>
-                <div class="author">- Chris Dibble</div>
-            </div>
-
         </div>
     </section>
 
