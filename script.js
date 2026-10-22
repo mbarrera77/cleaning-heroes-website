@@ -64,6 +64,91 @@ document.addEventListener("DOMContentLoaded", () => {
         yearSpan.textContent = new Date().getFullYear();
     }
 
+    // First-party conversion and campaign attribution. This also emits standard
+    // dataLayer/gtag events when an analytics provider is connected later.
+    const CONVERSION_URL = 'https://cleaning-heroes-crm.vercel.app/api/conversions';
+    const ATTRIBUTION_KEY = 'cleaning_heroes_attribution_v1';
+    const VISITOR_KEY = 'cleaning_heroes_visitor_v1';
+    const SESSION_KEY = 'cleaning_heroes_session_v1';
+
+    const getIdentifier = (storage, key) => {
+        try {
+            let value = storage.getItem(key);
+            if (!value) {
+                value = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+                storage.setItem(key, value);
+            }
+            return value;
+        } catch {
+            return window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        }
+    };
+
+    const captureAttribution = () => {
+        const params = new URLSearchParams(window.location.search);
+        let stored = {};
+        try { stored = JSON.parse(localStorage.getItem(ATTRIBUTION_KEY) || '{}'); } catch { stored = {}; }
+        const current = {
+            utmSource: params.get('utm_source') || '',
+            utmMedium: params.get('utm_medium') || '',
+            utmCampaign: params.get('utm_campaign') || '',
+            utmTerm: params.get('utm_term') || '',
+            utmContent: params.get('utm_content') || '',
+            gclid: params.get('gclid') || '',
+            fbclid: params.get('fbclid') || '',
+            landingPage: window.location.href,
+            referrer: document.referrer || ''
+        };
+        const hasCampaign = Boolean(current.utmSource || current.utmMedium || current.utmCampaign || current.gclid || current.fbclid);
+        const attribution = Object.fromEntries(Object.entries(hasCampaign || !stored.landingPage ? current : stored).filter(([, value]) => Boolean(value)));
+        try { localStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(attribution)); } catch { /* storage may be disabled */ }
+        return attribution;
+    };
+
+    const attribution = captureAttribution();
+    const sessionId = getIdentifier(sessionStorage, SESSION_KEY);
+    const visitorId = getIdentifier(localStorage, VISITOR_KEY);
+
+    const analyticsEvent = (eventName, details = {}) => {
+        const eventDetails = {
+            event_category: 'conversion',
+            page_path: window.location.pathname,
+            ...details
+        };
+        if (typeof window.gtag === 'function') window.gtag('event', eventName, eventDetails);
+        else {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: eventName, ...eventDetails });
+        }
+    };
+
+    const trackConversion = (eventName, details = {}) => {
+        analyticsEvent(eventName, details);
+        const payload = {
+            eventName,
+            pagePath: window.location.pathname,
+            pageTitle: document.title,
+            sessionId,
+            visitorId,
+            attribution,
+            ...details
+        };
+        fetch(CONVERSION_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            keepalive: true
+        }).catch(() => { /* analytics must never interrupt the visitor */ });
+    };
+
+    document.addEventListener('click', (event) => {
+        const link = event.target instanceof Element ? event.target.closest('a[href]') : null;
+        if (!link) return;
+        const href = link.getAttribute('href') || '';
+        if (href.toLowerCase().startsWith('tel:')) trackConversion('phone_click', { action: 'phone_link' });
+        if (href.toLowerCase().startsWith('sms:')) trackConversion('text_click', { action: 'text_link' });
+    });
+
     // 2. Smooth Scrolling for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -256,6 +341,22 @@ document.addEventListener("DOMContentLoaded", () => {
             enhanceResidentialAddressFields(formElement);
             addSecurityVerification(formElement);
             const successMsg = document.getElementById('form-success');
+            let formStarted = false;
+            let vacationInquiryTracked = false;
+            const isVacationInquiry = () => {
+                const service = formElement.querySelector('[name="service"]')?.value || '';
+                return /vacation|rental|turnover/i.test(`${window.location.pathname} ${service}`);
+            };
+            formElement.addEventListener('focusin', () => {
+                if (!formStarted) {
+                    formStarted = true;
+                    trackConversion('quote_form_started', { formType: isVacationInquiry() ? 'vacation' : formConfig.type, serviceType: formElement.querySelector('[name="service"]')?.value || '' });
+                }
+                if (!vacationInquiryTracked && isVacationInquiry()) {
+                    vacationInquiryTracked = true;
+                    trackConversion('vacation_rental_inquiry', { formType: formConfig.type, action: 'quote_form_started' });
+                }
+            });
 
             formElement.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -278,9 +379,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (crmPayload.squareFootage && !crmPayload.square_footage) {
                     crmPayload.square_footage = crmPayload.squareFootage;
                 }
-                crmPayload.formType = formConfig.type;
+                crmPayload.formType = isVacationInquiry() ? 'vacation' : formConfig.type;
                 crmPayload.source = window.location.href;
                 crmPayload.turnstileToken = turnstileToken;
+                crmPayload.attribution = attribution;
+                crmPayload.sessionId = sessionId;
+                crmPayload.visitorId = visitorId;
 
                 try {
                     const crmResponse = await fetch(CRM_INTAKE_URL, {
@@ -307,6 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 formElement.classList.add('hidden');
                 successMsg.classList.remove('hidden');
+                analyticsEvent('quote_form_completed', { form_type: crmPayload.formType, service_type: crmPayload.service || '' });
             });
         }
     });
