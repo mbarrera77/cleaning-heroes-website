@@ -157,9 +157,11 @@ document.addEventListener("DOMContentLoaded", () => {
         reviewCount: 17,
         reviewsUrl: GOOGLE_REVIEWS_URL,
         reviews: [
-            { author: 'nancy merrill', rating: 5, relativeDate: '7 months ago', text: 'Thx to the Cleaning Heroes team for such a great job cleaning our home. They were on time, polite, hard working and thorough. Also, the owner stayed in contact and made sure everything was done to our satisfaction. I would definitely recommend Cleaning Heroes!' },
-            { author: 'Robert Judd', rating: 5, relativeDate: '5 months ago', text: 'Cleaning heros came to my house today in Pawlyes Plantation. Three nice and totally competent ladies. They worked 8 solid hours and I never saw them on break. Could not be happier or more impressed. My house is going up for sale soon, and it looks prime. Thank you heros.' },
-            { author: 'David De Palma', rating: 5, relativeDate: '6 months ago', text: 'We’ve working with Cleaning Hero’s out of Pawley’s Island for our Airbnb, and they’ve been absolutely outstanding.' }
+            { author: 'David De Palma', rating: 5, publishTime: '2026-04-21T23:36:48.018Z', text: 'We’ve working with Cleaning Hero’s out of Pawley’s Island for our Airbnb, and they’ve been absolutely outstanding. Turnovers are always done on time, and the attention to detail really stands out—from spotless kitchens and bathrooms to perfectly staged linens that make the place feel guest-ready every time.' },
+            { author: 'nancy merrill', rating: 5, publishTime: '2026-03-07T23:17:57.215Z', text: 'Thx to the Cleaning Heroes team for such a great job cleaning our home. They were on time, polite, hard working and thorough. Also, the owner stayed in contact and made sure everything was done to our satisfaction. I would definitely recommend Cleaning Heroes!' },
+            { author: 'Robert Judd', rating: 5, publishTime: '2026-05-19T20:51:07.366Z', text: 'Cleaning heros came to my house today in Pawlyes Plantation. Three nice and totally competent ladies. They worked 8 solid hours and I never saw them on break. Could not be happier or more impressed. My house is going up for sale soon, and it looks prime. Thank you heros.' },
+            { author: 'Carmen B', rating: 5, publishTime: '2025-06-15T00:01:23.927Z', text: 'I couldn’t be happier with the experience I had using Cleaning Heroes for my home cleaning! From the moment I contacted them, their customer service was prompt, professional, and courteous. They offer great value, top-notch service, and peace of mind.' },
+            { author: 'Rosemarie Daizi', rating: 5, publishTime: '2026-01-07T23:06:33.715Z', text: 'I recently hired Cleaning Heroes for the cleaning of one of our Airbnb properties and I was really impressed by their work. They did an amazing deep clean and left the house looking amazing. I highly recommend their services.' }
         ]
     };
 
@@ -194,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    const createReviewCard = (review) => {
+    const createReviewCard = (review, reviewsUrl) => {
         const card = document.createElement('article');
         card.className = 'review-item';
         const stars = document.createElement('div');
@@ -210,9 +212,99 @@ document.addEventListener("DOMContentLoaded", () => {
         const date = document.createElement('span');
         date.textContent = `${reviewDate(review)} · Google`;
         meta.append(author, date);
-        card.append(stars, quote, meta);
+        const reviewLink = document.createElement('a');
+        reviewLink.className = 'review-card-link';
+        reviewLink.href = review.reviewUri || reviewsUrl;
+        reviewLink.target = '_blank';
+        reviewLink.rel = 'noopener noreferrer';
+        reviewLink.textContent = 'Read on Google ↗';
+        card.append(stars, quote, meta, reviewLink);
         return card;
     };
+
+    const setupReviewCarousel = () => {
+        const carousel = document.querySelector('[data-google-reviews-carousel]');
+        const viewport = document.querySelector('[data-google-reviews-viewport]');
+        const track = document.querySelector('[data-google-reviews-grid]');
+        const previous = document.querySelector('[data-review-previous]');
+        const next = document.querySelector('[data-review-next]');
+        const status = document.querySelector('[data-review-carousel-status]');
+        if (!carousel || !viewport || !track) return () => {};
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let autoAdvance;
+        let resumeTimer;
+        let scrollFrame;
+
+        const cardStep = () => {
+            const card = track.querySelector('.review-item');
+            if (!card) return viewport.clientWidth;
+            const gap = Number.parseFloat(window.getComputedStyle(track).columnGap) || 0;
+            return card.getBoundingClientRect().width + gap;
+        };
+
+        const updateStatus = () => {
+            const total = track.children.length;
+            if (!total || !status) return;
+            const step = cardStep();
+            const first = Math.min(total, Math.round(viewport.scrollLeft / step) + 1);
+            const visible = Math.max(1, Math.round((viewport.clientWidth + 1) / step));
+            const last = Math.min(total, first + visible - 1);
+            status.textContent = first === last ? `Review ${first} of ${total}` : `Reviews ${first}–${last} of ${total}`;
+        };
+
+        const move = (direction) => {
+            const maximum = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+            const atEnd = viewport.scrollLeft >= maximum - 4;
+            const atStart = viewport.scrollLeft <= 4;
+            let left = viewport.scrollLeft + (cardStep() * direction);
+            if (direction > 0 && atEnd) left = 0;
+            if (direction < 0 && atStart) left = maximum;
+            viewport.scrollTo({ left, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+        };
+
+        const stopAutoAdvance = () => {
+            window.clearInterval(autoAdvance);
+            autoAdvance = undefined;
+        };
+
+        const startAutoAdvance = () => {
+            stopAutoAdvance();
+            if (!reducedMotion.matches && track.children.length > 1) {
+                autoAdvance = window.setInterval(() => move(1), 6000);
+            }
+        };
+
+        const pauseThenResume = () => {
+            stopAutoAdvance();
+            window.clearTimeout(resumeTimer);
+            resumeTimer = window.setTimeout(startAutoAdvance, 10000);
+        };
+
+        previous?.addEventListener('click', () => { move(-1); pauseThenResume(); });
+        next?.addEventListener('click', () => { move(1); pauseThenResume(); });
+        carousel.addEventListener('mouseenter', stopAutoAdvance);
+        carousel.addEventListener('mouseleave', startAutoAdvance);
+        carousel.addEventListener('focusin', stopAutoAdvance);
+        carousel.addEventListener('focusout', startAutoAdvance);
+        viewport.addEventListener('pointerdown', pauseThenResume, { passive: true });
+        viewport.addEventListener('scroll', () => {
+            window.cancelAnimationFrame(scrollFrame);
+            scrollFrame = window.requestAnimationFrame(updateStatus);
+        }, { passive: true });
+        window.addEventListener('resize', updateStatus);
+        reducedMotion.addEventListener?.('change', startAutoAdvance);
+
+        updateStatus();
+        startAutoAdvance();
+        return () => {
+            viewport.scrollTo({ left: 0, behavior: 'auto' });
+            updateStatus();
+            startAutoAdvance();
+        };
+    };
+
+    const refreshReviewCarousel = setupReviewCarousel();
 
     const applyGoogleReviews = (snapshot) => {
         const safeSnapshot = snapshot && Number(snapshot.rating) && Number(snapshot.reviewCount) ? snapshot : reviewFallback;
@@ -231,7 +323,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (featuredDate) featuredDate.textContent = reviewDate(featured);
 
         const grid = document.querySelector('[data-google-reviews-grid]');
-        if (grid) grid.replaceChildren(...reviews.slice(0, 5).map(createReviewCard));
+        if (grid) {
+            grid.replaceChildren(...reviews.slice(0, 5).map((review) => createReviewCard(review, safeSnapshot.reviewsUrl)));
+            refreshReviewCarousel();
+        }
     };
 
     applyGoogleReviews(reviewFallback);
