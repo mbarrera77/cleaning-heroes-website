@@ -805,6 +805,7 @@ footer {
     }
 
     .features-list,
+    .form-text > aside,
     .form-text > div {
         order: 3;
     }
