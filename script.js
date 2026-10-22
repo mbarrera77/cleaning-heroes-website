@@ -1,4 +1,63 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Keep one consistent public navigation across every static website page.
+    const navContent = document.querySelector('.navbar .nav-content');
+    if (navContent) {
+        const normalizedPath = window.location.pathname
+            .toLowerCase()
+            .replace(/\/+$/, '')
+            .replace(/\.html$/, '');
+
+        let activeSection = 'residential';
+        if (normalizedPath.includes('faq')) activeSection = 'faq';
+        else if (
+            normalizedPath.includes('why-cleaning-heroes') ||
+            normalizedPath.includes('best-cleaning-company') ||
+            normalizedPath.includes('cleaning-heroes-facts')
+        ) activeSection = 'why';
+        else if (normalizedPath.includes('commercial-cleaning')) activeSection = 'commercial';
+        else if (normalizedPath === '/join') activeSection = 'join';
+        else if (normalizedPath === '/referral') activeSection = 'referral';
+
+        const navItems = [
+            { key: 'faq', label: 'FAQ', href: '/faq' },
+            { key: 'why', label: 'Why Us', href: '/why-cleaning-heroes.html' },
+            { key: 'join', label: 'Join Our Team', href: '/join' },
+            { key: 'referral', label: 'Refer & Earn', href: '/referral' },
+            { key: 'commercial', label: 'Commercial', href: '/commercial-cleaning' },
+            { key: 'residential', label: 'Residential Quote', href: '/#quote-section' }
+        ];
+
+        const navLinks = navItems.map((item) => {
+            const isActive = item.key === activeSection;
+            return `<a href="${item.href}" class="site-nav-link${isActive ? ' is-active' : ''}"${isActive ? ' aria-current="page"' : ''}>${item.label}</a>`;
+        }).join('');
+
+        const activeLabel = navItems.find((item) => item.key === activeSection)?.label || 'Menu';
+        navContent.innerHTML = `
+            <div class="logo-wrapper">
+                <a href="/" class="site-logo-link" aria-label="Cleaning Heroes home">
+                    <img src="/assets/images/logo.png" alt="Cleaning Heroes Logo" class="nav-logo">
+                    <span class="logo-text">Cleaning <span>Heroes</span></span>
+                </a>
+            </div>
+            <div class="site-nav-actions">
+                <a href="tel:8438942440" class="site-nav-phone"><span aria-hidden="true">📞</span> (843) 894-2440</a>
+                <button class="site-nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav-menu">${activeLabel}<span aria-hidden="true">⌄</span></button>
+                <div class="site-nav-menu" id="site-nav-menu">${navLinks}</div>
+            </div>`;
+
+        const menuToggle = navContent.querySelector('.site-nav-toggle');
+        const menu = navContent.querySelector('.site-nav-menu');
+        menuToggle?.addEventListener('click', () => {
+            const isOpen = menu.classList.toggle('is-open');
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+        });
+        menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+            menu.classList.remove('is-open');
+            menuToggle?.setAttribute('aria-expanded', 'false');
+        }));
+    }
+
     // 1. Set current year in footer
     const yearSpan = document.getElementById('year');
     if (yearSpan) {
