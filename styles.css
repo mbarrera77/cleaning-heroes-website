@@ -216,6 +216,11 @@ a {
     margin-bottom: 1.5rem;
 }
 
+.hero-text .hero-title {
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+}
+
 .hero-text p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
@@ -243,6 +248,7 @@ a {
 .quote-section {
     padding: 6rem 0;
     background-color: var(--bg-color);
+    scroll-margin-top: 80px;
 }
 
 .form-container {
@@ -596,6 +602,102 @@ footer {
         font-size: 0.95rem;
     }
 
+    .hero {
+        min-height: auto;
+        align-items: flex-start;
+        padding: 7.25rem 0 3.5rem;
+        background-position: 62% center;
+    }
+
+    .hero-text {
+        max-width: 100%;
+    }
+
+    .hero-text .hero-title {
+        max-width: 12ch;
+        font-size: clamp(2.25rem, 10vw, 2.75rem);
+        line-height: 1.04;
+        text-wrap: balance;
+    }
+
+    .hero-text h3 {
+        font-size: 0.95rem !important;
+        line-height: 1.35;
+    }
+
+    .hero-text p {
+        max-width: 36rem;
+        font-size: 1.02rem;
+        line-height: 1.55;
+        margin-bottom: 1.5rem;
+    }
+
+    .trust-badges {
+        gap: 0.65rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .hero-text .mt-2 {
+        margin-top: 0.5rem;
+    }
+
+    .quote-section {
+        padding: 3rem 0;
+        scroll-margin-top: 76px;
+    }
+
+    .form-container {
+        gap: 1rem;
+    }
+
+    .form-text {
+        display: contents;
+    }
+
+    .form-text h2,
+    .form-text > p {
+        order: 1;
+    }
+
+    .form-text h2 {
+        margin-bottom: 0;
+        font-size: clamp(2rem, 8vw, 2.4rem);
+    }
+
+    .form-text > p {
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .form-box {
+        order: 2;
+    }
+
+    .features-list,
+    .form-text > div {
+        order: 3;
+    }
+
+    .features-list {
+        display: grid;
+        gap: 0.65rem;
+        margin-top: 1rem;
+    }
+
+    .features-list li {
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    .form-text > div {
+        margin-top: 0.5rem !important;
+    }
+
+    .glass {
+        padding: 1.5rem;
+        border-radius: 18px;
+    }
+
     .footer-info p {
         display: flex;
         flex-direction: column;
@@ -609,6 +711,10 @@ footer {
     .hero-text h1,
     .hero-text h2 {
         font-size: 2.2rem;
+    }
+
+    .hero-text .hero-title {
+        font-size: clamp(2.15rem, 9.6vw, 2.45rem);
     }
 
     .form-row {
