@@ -58,6 +58,50 @@ document.addEventListener("DOMContentLoaded", () => {
         }));
     }
 
+    // Keep the three highest-intent actions within easy thumb reach on phones.
+    const quoteSection = document.getElementById('quote-section');
+    const mobileActionBar = document.createElement('nav');
+    mobileActionBar.className = 'mobile-action-bar';
+    mobileActionBar.setAttribute('aria-label', 'Quick contact options');
+    mobileActionBar.innerHTML = `
+        <a class="mobile-action-bar__action" href="tel:8438942440" aria-label="Call Cleaning Heroes at 843-894-2440">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92z"/></svg>
+            <span>Call</span>
+        </a>
+        <a class="mobile-action-bar__action" href="sms:8438942440" aria-label="Text Cleaning Heroes at 843-894-2440">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+            <span>Text</span>
+        </a>
+        <a class="mobile-action-bar__action mobile-action-bar__quote" href="${quoteSection ? '#quote-section' : '/#quote-section'}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.3 3.7L17 8l-3.7 1.3L12 13l-1.3-3.7L7 8l3.7-1.3L12 3zm6 10 .9 2.1L21 16l-2.1.9L18 19l-.9-2.1L15 16l2.1-.9L18 13zM6 14l1.1 2.9L10 18l-2.9 1.1L6 22l-1.1-2.9L2 18l2.9-1.1L6 14z"/></svg>
+            <span>Get a Quote</span>
+        </a>`;
+    document.body.appendChild(mobileActionBar);
+    document.body.classList.add('has-mobile-action-bar');
+
+    const liftMobileChatWidgets = () => {
+        document.querySelectorAll('iframe[title*="Chat" i], iframe[title*="tawk" i]').forEach((frame) => {
+            const frameStyle = window.getComputedStyle(frame);
+            const bottom = Number.parseFloat(frameStyle.bottom);
+            if (frameStyle.position === 'fixed' && Number.isFinite(bottom) && bottom <= 40) {
+                frame.classList.add('mobile-action-bar__chat-offset');
+                frame.style.setProperty('bottom', '78px', 'important');
+            }
+        });
+    };
+    liftMobileChatWidgets();
+    const chatWidgetObserver = new MutationObserver(liftMobileChatWidgets);
+    chatWidgetObserver.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+
+    const quoteAction = mobileActionBar.querySelector('.mobile-action-bar__quote');
+    if (quoteSection && quoteAction) {
+        quoteAction.addEventListener('click', (event) => {
+            event.preventDefault();
+            quoteSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            window.history.replaceState(null, '', '#quote-section');
+        });
+    }
+
     // 1. Set current year in footer
     const yearSpan = document.getElementById('year');
     if (yearSpan) {
