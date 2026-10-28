@@ -368,7 +368,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const grid = document.querySelector('[data-google-reviews-grid]');
         if (grid) {
-            grid.replaceChildren(...reviews.slice(0, 5).map((review) => createReviewCard(review, safeSnapshot.reviewsUrl)));
+            grid.replaceChildren(
+                ...reviews.map((review) => createReviewCard(review, safeSnapshot.reviewsUrl)),
+            );
             refreshReviewCarousel();
         }
     };
