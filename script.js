@@ -266,6 +266,48 @@ document.addEventListener("DOMContentLoaded", () => {
         return card;
     };
 
+    let featuredReviewTimer;
+    let featuredReviewIndex = 0;
+
+    const rotateFeaturedReviews = (reviews) => {
+        window.clearInterval(featuredReviewTimer);
+
+        const eligibleReviews = reviews.filter((review) => review?.text?.trim());
+        const card = document.querySelector('[data-featured-review-card]');
+        const featuredText = document.querySelector('[data-featured-review-text]');
+        const featuredAuthor = document.querySelector('[data-featured-review-author]');
+        const featuredDate = document.querySelector('[data-featured-review-date]');
+        if (!eligibleReviews.length || !card || !featuredText || !featuredAuthor || !featuredDate) return;
+
+        featuredReviewIndex = 0;
+        const showReview = (index, animate = false) => {
+            const review = eligibleReviews[index];
+            const update = () => {
+                featuredText.textContent = `“${review.text}”`;
+                featuredAuthor.textContent = review.author || 'Google reviewer';
+                featuredDate.textContent = reviewDate(review);
+                card.dataset.featuredReviewIndex = String(index + 1);
+                card.classList.remove('is-changing');
+            };
+
+            if (!animate) {
+                update();
+                return;
+            }
+
+            card.classList.add('is-changing');
+            window.setTimeout(update, 180);
+        };
+
+        showReview(featuredReviewIndex);
+        if (eligibleReviews.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            featuredReviewTimer = window.setInterval(() => {
+                featuredReviewIndex = (featuredReviewIndex + 1) % eligibleReviews.length;
+                showReview(featuredReviewIndex, true);
+            }, 8000);
+        }
+    };
+
     const setupReviewCarousel = () => {
         const carousel = document.querySelector('[data-google-reviews-carousel]');
         const viewport = document.querySelector('[data-google-reviews-viewport]');
@@ -358,13 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll('[data-google-reviews-link]').forEach((link) => { link.href = safeSnapshot.reviewsUrl; });
 
         const reviews = Array.isArray(safeSnapshot.reviews) && safeSnapshot.reviews.length ? safeSnapshot.reviews : reviewFallback.reviews;
-        const featured = reviews[0];
-        const featuredText = document.querySelector('[data-featured-review-text]');
-        const featuredAuthor = document.querySelector('[data-featured-review-author]');
-        const featuredDate = document.querySelector('[data-featured-review-date]');
-        if (featuredText) featuredText.textContent = `“${featured.text}”`;
-        if (featuredAuthor) featuredAuthor.textContent = featured.author;
-        if (featuredDate) featuredDate.textContent = reviewDate(featured);
+        rotateFeaturedReviews(reviews);
 
         const grid = document.querySelector('[data-google-reviews-grid]');
         if (grid) {

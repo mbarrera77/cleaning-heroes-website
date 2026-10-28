@@ -1141,6 +1141,12 @@ footer {
     border-radius: 12px;
     background: linear-gradient(145deg, #fff, #fbfaf4);
     box-shadow: 0 12px 30px rgba(35, 70, 77, 0.08);
+    transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.featured-google-review.is-changing {
+    opacity: 0.45;
+    transform: translateY(2px);
 }
 
 .featured-review-topline,
@@ -1173,6 +1179,10 @@ footer {
     font-size: 1rem;
     font-style: italic;
     line-height: 1.65;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
 }
 
 .featured-review-byline {
