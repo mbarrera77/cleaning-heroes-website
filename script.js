@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
         reviewLink.href = review.reviewUri || reviewsUrl;
         reviewLink.target = '_blank';
         reviewLink.rel = 'noopener noreferrer';
-        reviewLink.textContent = 'Read on Google ↗';
+        reviewLink.textContent = 'Read full review on Google ↗';
         card.append(stars, quote, meta, reviewLink);
         return card;
     };
