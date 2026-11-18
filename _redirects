@@ -17,7 +17,33 @@ https://www.mycleaningheroes.com/*    https://mycleaningheroes.com/:splat    301
 /api/growth/*                         https://cleaning-heroes-crm.vercel.app/api/growth/:splat 200
 /api/public/google-reviews            https://cleaning-heroes-crm.vercel.app/api/public/google-reviews 200
 
-# Clean URL support
+# Canonical extensionless URLs
+/index.html                            /                                      301!
+/quote.html                            /quote                                 301!
+/faq.html                              /faq                                   301!
+/standard-cleaning.html                /standard-cleaning                     301!
+/deep-cleaning.html                    /deep-cleaning                         301!
+/move-in-out.html                      /move-in-out                           301!
+/vacation-rentals.html                 /vacation-rentals                      301!
+/commercial-cleaning.html              /commercial-cleaning                  301!
+/post-construction-cleaning.html       /post-construction-cleaning           301!
+/house-cleaning-pawleys-island.html    /house-cleaning-pawleys-island        301!
+/house-cleaning-murrells-inlet.html    /house-cleaning-murrells-inlet        301!
+/house-cleaning-litchfield-sc.html     /house-cleaning-litchfield-sc         301!
+/house-cleaning-myrtle-beach.html      /house-cleaning-myrtle-beach          301!
+/house-cleaning-georgetown-sc.html     /house-cleaning-georgetown-sc         301!
+/house-cleaning-garden-city-sc.html    /house-cleaning-garden-city-sc        301!
+/house-cleaning-surfside-beach-sc.html /house-cleaning-surfside-beach-sc     301!
+/deep-cleaning-murrells-inlet-sc.html  /deep-cleaning-murrells-inlet-sc      301!
+/vacation-rental-cleaning-myrtle-beach-sc.html /vacation-rental-cleaning-myrtle-beach-sc 301!
+/why-cleaning-heroes.html              /why-cleaning-heroes                  301!
+/best-cleaning-company-pawleys-island.html /best-cleaning-company-pawleys-island 301!
+/cleaning-heroes-facts.html            /cleaning-heroes-facts                301!
+/commercial-cleaning-pawleys-island-sc.html /commercial-cleaning                 301!
+/post-construction-cleaning-pawleys-island-sc.html /post-construction-cleaning          301!
+/vacation-rental-turnover-cleaning.html /vacation-rentals                     301!
+
+# Clean URL aliases and trailing-slash cleanup
 /faq/                                 /faq                             301
 /standard-cleaning/                   /standard-cleaning               301
 /deep-cleaning/                       /deep-cleaning                   301
