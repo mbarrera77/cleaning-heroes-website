@@ -60,6 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Keep the three highest-intent actions within easy thumb reach on phones.
     const quoteSection = document.getElementById('quote-section');
+    const isQuoteLandingPage = window.location.pathname
+        .toLowerCase()
+        .replace(/\/+$/, '')
+        .replace(/\.html$/, '') === '/quote';
     const mobileActionBar = document.createElement('nav');
     mobileActionBar.className = 'mobile-action-bar';
     mobileActionBar.setAttribute('aria-label', 'Quick contact options');
@@ -72,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
             <span>Text</span>
         </a>
-        <a class="mobile-action-bar__action mobile-action-bar__quote" href="${quoteSection ? '#quote-section' : '/#quote-section'}">
+        <a class="mobile-action-bar__action mobile-action-bar__quote" href="${isQuoteLandingPage ? '#quote-section' : '/quote'}">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.3 3.7L17 8l-3.7 1.3L12 13l-1.3-3.7L7 8l3.7-1.3L12 3zm6 10 .9 2.1L21 16l-2.1.9L18 19l-.9-2.1L15 16l2.1-.9L18 13zM6 14l1.1 2.9L10 18l-2.9 1.1L6 22l-1.1-2.9L2 18l2.9-1.1L6 14z"/></svg>
             <span>Get a Quote</span>
         </a>`;
@@ -94,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chatWidgetObserver.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
 
     const quoteAction = mobileActionBar.querySelector('.mobile-action-bar__quote');
-    if (quoteSection && quoteAction) {
+    if (isQuoteLandingPage && quoteSection && quoteAction) {
         quoteAction.addEventListener('click', (event) => {
             event.preventDefault();
             quoteSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
