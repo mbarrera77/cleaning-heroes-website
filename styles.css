@@ -197,7 +197,7 @@ a {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(rgba(92, 122, 135, 0.75), rgba(42, 59, 66, 0.6)), url('assets/images/hero-bg.png') center/cover no-repeat;
+    background: linear-gradient(rgba(92, 122, 135, 0.75), rgba(42, 59, 66, 0.6)), url('assets/images/hero-bg.jpg') center/cover no-repeat;
     position: relative;
     padding-top: 80px;
     /* Offset for navbar */
@@ -454,6 +454,10 @@ select:focus {
 
 .quote-address-primary {
     grid-template-columns: 2fr 1fr;
+}
+
+.quote-address-secondary {
+    grid-template-columns: minmax(0, 1fr) minmax(6rem, 0.42fr) minmax(7rem, 0.58fr);
 }
 
 .quote-state-field {

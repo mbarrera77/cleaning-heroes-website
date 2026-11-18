@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const navItems = [
             { key: 'faq', label: 'FAQ', href: '/faq' },
-            { key: 'why', label: 'Why Us', href: '/why-cleaning-heroes.html' },
+            { key: 'why', label: 'Why Us', href: '/why-cleaning-heroes' },
             { key: 'join', label: 'Join Our Team', href: '/join' },
             { key: 'referral', label: 'Refer & Earn', href: '/referral' },
             { key: 'commercial', label: 'Commercial', href: '/commercial-cleaning' },
@@ -560,7 +560,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const apt = formElement.querySelector('[name="apt"]')?.value?.trim() || '';
         const city = formElement.querySelector('[name="city"]')?.value?.trim() || '';
         const state = formElement.querySelector('[name="state"]')?.value?.trim() || '';
-        const zip = formElement.querySelector('[name="zip"]')?.value?.trim() || '';
+        const zip = formElement.querySelector('[data-quote-step="1"] [name="zip"], [name="zip"]')?.value?.trim() || '';
         const addressInput = formElement.querySelector('[name="address"]');
 
         if (addressInput) {
@@ -584,7 +584,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <label>Service Address <span style="font-weight: 400; color: var(--text-light);">(optional)</span></label>
             <p style="font-size: 0.85rem; color: var(--text-light); margin: 0 0 0.75rem;">Share what feels comfortable now. The more specific the location, the cleaner the quote we can build.</p>
             <input type="hidden" name="address" value="">
-            <div class="form-row">
+            <div class="form-row quote-address-secondary">
                 <div class="form-group" style="flex: 2; margin-bottom: 1rem;">
                     <label for="${buildAddressId(formElement, 'street')}">Street Address</label>
                     <input type="text" id="${buildAddressId(formElement, 'street')}" name="street" placeholder="123 Main Street">
@@ -604,8 +604,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     <input type="text" id="${buildAddressId(formElement, 'state')}" name="state" placeholder="SC" maxlength="2">
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">
-                    <label for="${buildAddressId(formElement, 'zip')}">ZIP</label>
-                    <input type="text" id="${buildAddressId(formElement, 'zip')}" name="zip" placeholder="29585">
+                    <label for="${buildAddressId(formElement, 'zip-confirm')}">ZIP</label>
+                    <input type="text" id="${buildAddressId(formElement, 'zip-confirm')}" data-quote-zip-confirm autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}(-[0-9]{4})?" placeholder="29585">
                 </div>
             </div>
         `;
@@ -613,6 +613,21 @@ document.addEventListener("DOMContentLoaded", () => {
         formElement.querySelectorAll('[name="street"], [name="apt"], [name="city"], [name="state"], [name="zip"]').forEach((field) => {
             field.addEventListener('input', () => syncFormattedAddress(formElement));
         });
+    };
+
+    const setupZipConfirmation = (formElement) => {
+        const primaryZip = formElement.querySelector('[data-quote-step="1"] [name="zip"]');
+        const confirmationZip = formElement.querySelector('[data-quote-zip-confirm]');
+        if (!primaryZip || !confirmationZip) return;
+
+        const copyPrimaryZip = () => { confirmationZip.value = primaryZip.value; };
+        primaryZip.addEventListener('input', copyPrimaryZip);
+        confirmationZip.addEventListener('input', () => {
+            primaryZip.value = confirmationZip.value;
+            syncFormattedAddress(formElement);
+        });
+        formElement.addEventListener('quote:show-second-step', copyPrimaryZip);
+        copyPrimaryZip();
     };
 
     const setupResidentialQuoteSteps = (formElement) => {
@@ -689,6 +704,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const formElement = document.getElementById(formConfig.id);
         if (formElement) {
             enhanceResidentialAddressFields(formElement);
+            setupZipConfirmation(formElement);
             setupResidentialQuoteSteps(formElement);
             addSecurityVerification(formElement);
             const successMsg = document.getElementById('form-success');

@@ -1,5 +1,17 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/commercial-cleaning-pawleys-island-sc", "destination": "/commercial-cleaning", "permanent": true },
+    { "source": "/post-construction-cleaning-pawleys-island-sc", "destination": "/post-construction-cleaning", "permanent": true },
+    { "source": "/vacation-rental-turnover-cleaning", "destination": "/vacation-rentals", "permanent": true },
+    { "source": "/vacation-rental-cleaning", "destination": "/vacation-rentals", "permanent": true },
+    { "source": "/move-in-out-cleaning", "destination": "/move-in-out", "permanent": true },
+    { "source": "/book", "destination": "/quote", "permanent": true },
+    { "source": "/help", "destination": "/faq", "permanent": true },
+    { "source": "/commercial-quotes", "destination": "/commercial-cleaning", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/join", "destination": "https://cleaning-heroes-crm.vercel.app/join" },
     { "source": "/referral", "destination": "https://cleaning-heroes-crm.vercel.app/referral" },

@@ -171,9 +171,9 @@
                     style="font-weight: 600; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; font-size: 1.05rem;">
                     <span style="font-size: 1.2rem;">📞</span> (843) 894-2440
                 </a>
-                <a href="faq.html" style="font-weight: 600; color: var(--primary-color); text-decoration: none;"
+                <a href="/faq" style="font-weight: 600; color: var(--primary-color); text-decoration: none;"
                     class="desktop-only">FAQ</a>
-                <a href="why-cleaning-heroes.html"
+                <a href="/why-cleaning-heroes"
                     style="font-weight: 600; color: var(--primary-color); text-decoration: none;"
                     class="desktop-only">Why Us</a>
                 <a href="/join"
@@ -182,7 +182,7 @@
                 <a href="/referral"
                     style="font-weight: 600; color: var(--primary-color); text-decoration: none;"
                     class="desktop-only">Refer &amp; Earn</a>
-                <a href="commercial-cleaning.html"
+                <a href="/commercial-cleaning"
                     style="font-weight: 600; color: var(--primary-color); text-decoration: none;"
                     class="desktop-only wide-nav-only">Commercial</a>
                 <a href="#quote-section" class="btn btn-primary">Residential Quote</a>
@@ -338,7 +338,7 @@
                         </div>
                         <div class="form-group quote-address-group">
                             <label>Service Address <span class="optional-label">(optional)</span></label>
-                            <p class="quote-address-help">Share what feels comfortable now. Your ZIP from step one is already included.</p>
+                            <p class="quote-address-help">Share what feels comfortable now. Confirm or update your ZIP below.</p>
                             <input type="hidden" id="address" name="address" value="">
                             <div class="form-row quote-address-primary">
                                 <div class="form-group">
@@ -350,7 +350,7 @@
                                     <input type="text" id="lead-form-apt" name="apt" autocomplete="address-line2" placeholder="Unit 2">
                                 </div>
                             </div>
-                            <div class="form-row">
+                            <div class="form-row quote-address-secondary">
                                 <div class="form-group">
                                     <label for="lead-form-city">City</label>
                                     <input type="text" id="lead-form-city" name="city" autocomplete="address-level2" placeholder="Pawleys Island">
@@ -358,6 +358,10 @@
                                 <div class="form-group quote-state-field">
                                     <label for="lead-form-state">State</label>
                                     <input type="text" id="lead-form-state" name="state" autocomplete="address-level1" placeholder="SC" maxlength="2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lead-form-zip-confirm">ZIP</label>
+                                    <input type="text" id="lead-form-zip-confirm" data-quote-zip-confirm autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}(-[0-9]{4})?" placeholder="29585">
                                 </div>
                             </div>
                         </div>
@@ -389,7 +393,7 @@
                     <p>Regular maintenance to keep your home consistently fresh. We cover comprehensive dusting,
                         mopping, vacuuming, and complete sanitation of your bathrooms and kitchen. Perfect for saving
                         you time every week.</p>
-                    <a href="standard-cleaning.html" class="btn"
+                    <a href="/standard-cleaning" class="btn"
                         style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">Learn
                         More</a>
                 </div>
@@ -398,7 +402,7 @@
                     <h3>Deep Cleaning</h3>
                     <p>A meticulous, top-to-bottom clean targeting neglected areas. We scrub baseboards, polish inside
                         appliances, and eliminate built-up grime to completely restore your home's original shine.</p>
-                    <a href="deep-cleaning.html" class="btn"
+                    <a href="/deep-cleaning" class="btn"
                         style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">Learn
                         More</a>
                 </div>
@@ -407,7 +411,7 @@
                     <h3>Move In/Out</h3>
                     <p>Take the stress out of moving. We ensure your old place is perfectly polished for landlords or
                         new owners, and make sure your new home is completely sanitized and move-in ready.</p>
-                    <a href="move-in-out.html" class="btn"
+                    <a href="/move-in-out" class="btn"
                         style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">Learn
                         More</a>
                 </div>
@@ -417,7 +421,7 @@
                     <p>Ensure 5-star reviews for your Airbnb or VRBO. We provide extremely fast, reliable, and thorough
                         turnovers, including laundry and restocking, to give your guests a pristine vacation experience.
                     </p>
-                    <a href="vacation-rentals.html" class="btn"
+                    <a href="/vacation-rentals" class="btn"
                         style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">Learn
                         More</a>
                 </div>
@@ -426,7 +430,7 @@
                     <h3>Commercial Business</h3>
                     <p>Keep your office, retail storefront, or facility immaculate. We provide dependable, customized
                         commercial cleaning designed entirely around your operational schedule.</p>
-                    <a href="commercial-cleaning.html" class="btn"
+                    <a href="/commercial-cleaning" class="btn"
                         style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">Get
                         a Quote</a>
                 </div>
@@ -434,7 +438,7 @@
                     <div class="icon">🔨</div>
                     <h3>Post-Construction</h3>
                     <p>After renovations, repairs, or new project work, we help remove fine dust, wipe surfaces, reset bathrooms and kitchens, and make the space feel finished.</p>
-                    <a href="post-construction-cleaning.html" class="btn"
+                    <a href="/post-construction-cleaning" class="btn"
                         style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">Learn
                         More</a>
                 </div>
@@ -450,32 +454,32 @@
                 <div class="service-card">
                     <h3>House Cleaning in Pawleys Island</h3>
                     <p>Recurring cleaning, deep cleaning, move-related cleaning, and rental turnovers for homes and condos throughout Pawleys Island.</p>
-                    <a href="house-cleaning-pawleys-island.html" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Pawleys Island Page</a>
+                    <a href="/house-cleaning-pawleys-island" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Pawleys Island Page</a>
                 </div>
                 <div class="service-card">
                     <h3>House Cleaning in Murrells Inlet</h3>
                     <p>Dependable home cleaning and vacation rental support for busy households and property owners in Murrells Inlet.</p>
-                    <a href="house-cleaning-murrells-inlet.html" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Murrells Inlet Page</a>
+                    <a href="/house-cleaning-murrells-inlet" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Murrells Inlet Page</a>
                 </div>
                 <div class="service-card">
                     <h3>House Cleaning in Myrtle Beach</h3>
                     <p>Trusted cleaning help for year-round residents, second homes, and short-term rentals throughout Myrtle Beach.</p>
-                    <a href="house-cleaning-myrtle-beach.html" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Myrtle Beach Page</a>
+                    <a href="/house-cleaning-myrtle-beach" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Myrtle Beach Page</a>
                 </div>
                 <div class="service-card">
                     <h3>House Cleaning in Georgetown</h3>
                     <p>Detailed house cleaning, deep cleaning, move cleaning, and turnover support for Georgetown homes and coastal properties.</p>
-                    <a href="house-cleaning-georgetown-sc.html" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Georgetown Page</a>
+                    <a href="/house-cleaning-georgetown-sc" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Georgetown Page</a>
                 </div>
                 <div class="service-card">
                     <h3>House Cleaning in Garden City</h3>
                     <p>Cleaning help for beach homes, condos, and rental properties in Garden City and nearby communities.</p>
-                    <a href="house-cleaning-garden-city-sc.html" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Garden City Page</a>
+                    <a href="/house-cleaning-garden-city-sc" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Garden City Page</a>
                 </div>
                 <div class="service-card">
                     <h3>House Cleaning in Surfside Beach</h3>
                     <p>Dependable cleaning for Surfside Beach homes, second homes, and guest-ready rental properties.</p>
-                    <a href="house-cleaning-surfside-beach-sc.html" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Surfside Beach Page</a>
+                    <a href="/house-cleaning-surfside-beach-sc" class="btn" style="color: var(--primary-color); margin-top: 1rem; border: 1px solid var(--primary-color);">View Surfside Beach Page</a>
                 </div>
             </div>
         </div>
@@ -499,8 +503,8 @@
                 </div>
             </div>
             <div style="text-align: center; margin-top: 2.5rem;">
-                <a href="why-cleaning-heroes.html" class="btn btn-primary">Why Cleaning Heroes Shows Up Locally</a>
-                <a href="best-cleaning-company-pawleys-island.html" class="btn" style="margin-left: 0.75rem; color: var(--primary-color); border: 1px solid var(--primary-color);">Pawleys Island Guide</a>
+                <a href="/why-cleaning-heroes" class="btn btn-primary">Why Cleaning Heroes Shows Up Locally</a>
+                <a href="/best-cleaning-company-pawleys-island" class="btn" style="margin-left: 0.75rem; color: var(--primary-color); border: 1px solid var(--primary-color);">Pawleys Island Guide</a>
             </div>
         </div>
     </section>
@@ -584,7 +588,7 @@
                         style="color: var(--secondary-color); font-weight: 600; text-decoration: none;">info@mycleaningheroes.com</a>
                 </p>
                 <p>Serving Pawleys Island, Murrells Inlet, Myrtle Beach, Georgetown, Garden City, Surfside Beach, and nearby Waccamaw Neck and Grand Strand neighborhoods.</p>
-                <p><a href="why-cleaning-heroes.html">Why choose Cleaning Heroes</a> | <a href="best-cleaning-company-pawleys-island.html">Pawleys Island guide</a> | <a href="cleaning-heroes-facts.html">Cleaning Heroes facts</a> | <a href="faq.html">Cleaning service FAQ</a></p>
+                <p><a href="/why-cleaning-heroes">Why choose Cleaning Heroes</a> | <a href="/best-cleaning-company-pawleys-island">Pawleys Island guide</a> | <a href="/cleaning-heroes-facts">Cleaning Heroes facts</a> | <a href="/faq">Cleaning service FAQ</a></p>
                 <p><a href="/join">Join our cleaning partner network</a> | <a href="/referral">Refer a friend</a></p>
                 <div class="social-links" style="display: flex; gap: 1rem; margin-top: 1rem;">
                     <a href="https://www.instagram.com/mycleaningheroes/" target="_blank"
