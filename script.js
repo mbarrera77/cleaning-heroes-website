@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
             { key: 'join', label: 'Join Our Team', href: '/join' },
             { key: 'referral', label: 'Refer & Earn', href: '/referral' },
             { key: 'commercial', label: 'Commercial', href: '/commercial-cleaning' },
-            { key: 'residential', label: 'Residential Quote', href: '/#quote-section' }
+            { key: 'residential', label: 'Residential Quote', href: '/quote' }
         ];
 
         const navLinks = navItems.map((item) => {
@@ -168,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const trackConversion = (eventName, details = {}) => {
         analyticsEvent(eventName, details);
+        if (['localhost', '127.0.0.1'].includes(window.location.hostname)) return;
         const payload = {
             eventName,
             pagePath: window.location.pathname,
@@ -655,7 +656,14 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         nextButton.addEventListener('click', () => {
-            if (validateStepOne()) showStep(2, { focusHeading: true });
+            if (validateStepOne()) {
+                analyticsEvent('quote_form_step_completed', {
+                    form_type: 'residential',
+                    step: 1,
+                    service_type: formElement.querySelector('[name="service"]')?.value || ''
+                });
+                showStep(2, { focusHeading: true });
+            }
         });
 
         backButton.addEventListener('click', () => showStep(1, { focusHeading: true }));

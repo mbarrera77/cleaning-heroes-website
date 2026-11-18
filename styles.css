@@ -498,6 +498,259 @@ select:focus {
     margin-bottom: 1.5rem;
 }
 
+/* Focused campaign quote landing page */
+.quote-landing-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 12% 10%, rgba(255, 209, 59, 0.16), transparent 28rem),
+        linear-gradient(145deg, #fbfdfd 0%, #eef5f5 58%, #f8f5e9 100%);
+}
+
+.quote-landing-header {
+    position: relative;
+    z-index: 20;
+    border-bottom: 1px solid rgba(92, 122, 135, 0.14);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 8px 26px rgba(42, 59, 66, 0.06);
+}
+
+.quote-landing-header__inner {
+    min-height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.quote-landing-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.quote-landing-contact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.7rem 1rem;
+    border: 1px solid rgba(92, 122, 135, 0.25);
+    border-radius: 999px;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.quote-landing-contact--primary {
+    border-color: var(--secondary-color);
+    background: var(--secondary-color);
+    color: var(--text-main);
+}
+
+.quote-landing-main {
+    position: relative;
+    overflow: hidden;
+    padding: 3.5rem 0 4.5rem;
+}
+
+.quote-landing-main::after {
+    content: '';
+    position: absolute;
+    inset: auto -8rem -14rem auto;
+    width: 34rem;
+    height: 34rem;
+    border: 1px solid rgba(92, 122, 135, 0.14);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3.5rem rgba(255, 209, 59, 0.05), 0 0 0 7rem rgba(92, 122, 135, 0.04);
+    pointer-events: none;
+}
+
+.quote-landing-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(460px, 1.1fr);
+    gap: clamp(2.5rem, 6vw, 5.5rem);
+    align-items: start;
+}
+
+.quote-landing-copy {
+    padding-top: 1.4rem;
+}
+
+.quote-landing-eyebrow {
+    margin-bottom: 0.8rem;
+    color: #8b6b00;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.quote-landing-copy h1 {
+    max-width: 12ch;
+    margin-bottom: 1.25rem;
+    color: var(--primary-color);
+    font-size: clamp(2.7rem, 5.6vw, 4.8rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+}
+
+.quote-landing-lede {
+    max-width: 37rem;
+    margin-bottom: 1.6rem;
+    color: var(--text-light);
+    font-size: 1.14rem;
+    line-height: 1.7;
+}
+
+.quote-landing-trust {
+    display: grid;
+    gap: 0.65rem;
+    margin: 0 0 1.8rem;
+    padding: 0;
+    list-style: none;
+}
+
+.quote-landing-trust li {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--primary-color);
+    font-weight: 650;
+}
+
+.quote-landing-trust li::before {
+    content: '✓';
+    display: grid;
+    width: 1.55rem;
+    height: 1.55rem;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255, 209, 59, 0.28);
+    color: #7b5e00;
+    font-weight: 900;
+}
+
+.quote-landing-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid rgba(92, 122, 135, 0.17);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.quote-landing-rating .review-stars {
+    font-size: 0.85rem;
+}
+
+.quote-landing-form-wrap {
+    scroll-margin-top: 1rem;
+}
+
+.quote-landing-form-wrap .glass {
+    padding: clamp(1.6rem, 4vw, 2.6rem);
+    box-shadow: 0 28px 70px rgba(60, 91, 101, 0.18);
+}
+
+.quote-landing-proof {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.quote-landing-proof article {
+    padding: 1.2rem;
+    border: 1px solid rgba(92, 122, 135, 0.14);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.66);
+}
+
+.quote-landing-proof strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: var(--primary-color);
+}
+
+.quote-landing-proof span {
+    color: var(--text-light);
+    font-size: 0.88rem;
+}
+
+.quote-landing-footer {
+    padding: 1.4rem 0 6rem;
+    border-top: 1px solid rgba(92, 122, 135, 0.12);
+    background: #fff;
+    color: var(--text-light);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+    .quote-landing-main {
+        padding-top: 2rem;
+    }
+
+    .quote-landing-grid {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+    }
+
+    .quote-landing-copy {
+        padding-top: 0;
+    }
+
+    .quote-landing-copy h1 {
+        max-width: 14ch;
+        font-size: clamp(2.5rem, 10vw, 3.7rem);
+    }
+
+    .quote-landing-proof {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 620px) {
+    .quote-landing-header__inner {
+        min-height: 70px;
+    }
+
+    .quote-landing-header .nav-logo {
+        height: 42px;
+    }
+
+    .quote-landing-header .logo-text,
+    .quote-landing-contact--secondary {
+        display: none;
+    }
+
+    .quote-landing-contact {
+        min-height: 40px;
+        padding: 0.58rem 0.78rem;
+        font-size: 0.86rem;
+    }
+
+    .quote-landing-main {
+        padding: 1.7rem 0 3rem;
+    }
+
+    .quote-landing-lede {
+        font-size: 1rem;
+    }
+
+    .quote-landing-form-wrap .glass {
+        padding: 1.3rem;
+        border-radius: 16px;
+    }
+}
+
 /* Services */
 .services-section {
     padding: 6rem 0;

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get a House Cleaning Quote | Cleaning Heroes</title>
+    <meta name="description" content="Request a personalized cleaning quote from Cleaning Heroes for your home, rental, move, or post-construction project in the Grand Strand area.">
+    <link rel="canonical" href="https://mycleaningheroes.com/quote">
+    <meta property="og:title" content="Get a House Cleaning Quote | Cleaning Heroes">
+    <meta property="og:description" content="Tell us what your property needs and receive a personalized cleaning quote from our local team.">
+    <meta property="og:image" content="https://mycleaningheroes.com/assets/images/hero-bg.png">
+    <meta property="og:url" content="https://mycleaningheroes.com/quote">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <link rel="stylesheet" href="styles.css?v=20261118-quote">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Request a Cleaning Quote",
+      "url": "https://mycleaningheroes.com/quote",
+      "isPartOf": { "@id": "https://mycleaningheroes.com/#business" },
+      "description": "Request a personalized residential cleaning quote from Cleaning Heroes."
+    }
+    </script>
+</head>
+
+<body class="quote-landing-page">
+    <header class="quote-landing-header">
+        <div class="container quote-landing-header__inner">
+            <a href="/" class="site-logo-link" aria-label="Cleaning Heroes home">
+                <img src="/assets/images/logo.png" alt="Cleaning Heroes" class="nav-logo">
+                <span class="logo-text">Cleaning <span>Heroes</span></span>
+            </a>
+            <div class="quote-landing-header__actions" aria-label="Contact Cleaning Heroes">
+                <a class="quote-landing-contact quote-landing-contact--secondary" href="sms:8438942440">Text us</a>
+                <a class="quote-landing-contact quote-landing-contact--primary" href="tel:8438942440">Call (843) 894-2440</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="quote-landing-main" id="quote-section">
+        <div class="container">
+            <div class="quote-landing-grid">
+                <section class="quote-landing-copy" aria-labelledby="quote-page-title">
+                    <p class="quote-landing-eyebrow">Local care. Hero-level clean.</p>
+                    <h1 id="quote-page-title">A cleaner home starts here.</h1>
+                    <p class="quote-landing-lede">Tell us a little about your home and what you need. Our local team will review the details and follow up with clear, personalized pricing.</p>
+                    <ul class="quote-landing-trust">
+                        <li>Locally owned and operated</li>
+                        <li>Fully insured and vetted cleaning professionals</li>
+                        <li>No obligation and no surprise pricing</li>
+                    </ul>
+                    <a class="quote-landing-rating" data-google-reviews-link href="https://www.google.com/maps/place/Cleaning+Heroes/@33.4849946,-79.0991042,17z/data=!4m8!3m7!1s0x6e2b36eb16aae05:0xbc61fbd2bdd8e162!8m2!3d33.4849946!4d-79.0991042!9m1!1b1!16s%2Fg%2F11xkc6v2x5" target="_blank" rel="noopener noreferrer">
+                        <span class="review-stars" aria-label="5 out of 5 stars">★★★★★</span>
+                        <span><strong data-google-rating>5.0</strong> on Google · <span data-google-review-count>17 reviews</span></span>
+                    </a>
+                </section>
+
+                <section class="quote-landing-form-wrap" aria-label="Request a cleaning quote">
+                    <div class="form-box glass">
+                        <form id="lead-form" action="#" method="POST">
+                            <div class="quote-form-progress" aria-label="Quote request progress">
+                                <div class="quote-form-progress-copy">
+                                    <span data-quote-step-label>Step 1 of 2</span>
+                                    <span>About a minute</span>
+                                </div>
+                                <div class="quote-form-progress-track" aria-hidden="true"><span data-quote-progress></span></div>
+                            </div>
+
+                            <section class="quote-form-step" data-quote-step="1" aria-labelledby="quote-step-one-title">
+                                <div class="quote-form-heading">
+                                    <p class="quote-form-eyebrow">Let’s start with the basics</p>
+                                    <h3 id="quote-step-one-title" tabindex="-1">Tell us how we can help</h3>
+                                    <p>Share a few details and we’ll build a quote for your property.</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Full Name</label>
+                                    <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" required autocomplete="tel" inputmode="tel" placeholder="(843) 555-5555">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="lead-form-zip">ZIP Code</label>
+                                        <input type="text" id="lead-form-zip" name="zip" required autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}(-[0-9]{4})?" placeholder="29585">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="service">Service Type</label>
+                                        <select id="service" name="service" required>
+                                            <option value="" disabled selected>Select a service</option>
+                                            <option value="Standard Cleaning">Standard / Recurring Cleaning</option>
+                                            <option value="Deep Cleaning">Deep Cleaning</option>
+                                            <option value="Move In/Out Cleaning">Move-In / Move-Out Cleaning</option>
+                                            <option value="Vacation Rental Turnover">Vacation Rental Turnover</option>
+                                            <option value="Post-Construction Cleaning">Post-Construction Cleaning</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-block quote-form-next" data-quote-next>Continue <span aria-hidden="true">→</span></button>
+                                <p class="form-note">No obligation. We’ll only use this to prepare your quote.</p>
+                            </section>
+
+                            <section class="quote-form-step" data-quote-step="2" aria-labelledby="quote-step-two-title" hidden>
+                                <div class="quote-form-heading">
+                                    <p class="quote-form-eyebrow">Almost there</p>
+                                    <h3 id="quote-step-two-title" tabindex="-1">Tell us about your home</h3>
+                                    <p>These details help us give you accurate pricing.</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="bedrooms">Bedrooms</label>
+                                        <select id="bedrooms" name="bedrooms" required>
+                                            <option value="" disabled selected>Select</option>
+                                            <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7+</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bathrooms">Bathrooms</label>
+                                        <select id="bathrooms" name="bathrooms" required>
+                                            <option value="" disabled selected>Select</option>
+                                            <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7+</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Service Address <span class="optional-label">(optional)</span></label>
+                                    <input type="text" id="address" name="address" autocomplete="street-address" placeholder="Street address">
+                                </div>
+                                <div class="quote-form-security" aria-label="Security verification"></div>
+                                <div class="quote-form-actions">
+                                    <button type="button" class="btn quote-form-back" data-quote-back><span aria-hidden="true">←</span> Back</button>
+                                    <button type="submit" class="btn btn-primary quote-form-submit">Request Quote</button>
+                                </div>
+                                <p class="form-note">By submitting, you agree to receive a call or text about your quote.</p>
+                            </section>
+                        </form>
+                        <div id="form-success" class="hidden" aria-live="polite">
+                            <h3>Thank you!</h3>
+                            <p>We received your request. A Cleaning Heroes team member will follow up shortly with your personalized quote.</p>
+                            <a class="btn btn-primary" href="/">Return to Cleaning Heroes</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <section class="quote-landing-proof" aria-label="Why customers choose Cleaning Heroes">
+                <article><strong>Homes & condos</strong><span>Recurring, deep, and move-related cleaning.</span></article>
+                <article><strong>Vacation rentals</strong><span>Reliable turnovers built around guest schedules.</span></article>
+                <article><strong>Coastal service area</strong><span>Pawleys Island, Murrells Inlet, Myrtle Beach, and nearby communities.</span></article>
+            </section>
+        </div>
+    </main>
+
+    <footer class="quote-landing-footer">
+        <div class="container">© <span id="year"></span> Cleaning Heroes · Pawleys Island, South Carolina · <a href="mailto:info@mycleaningheroes.com">info@mycleaningheroes.com</a></div>
+    </footer>
+
+    <script src="script.js?v=20261118-quote"></script>
+</body>
+
+</html>
