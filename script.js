@@ -190,6 +190,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }).catch(() => { /* analytics must never interrupt the visitor */ });
     };
 
+    // One anonymous first-party page view per browser page load. Visitor and
+    // session IDs are random site-scoped identifiers; no contact details are
+    // included in traffic analytics.
+    trackConversion('page_view', { action: 'page_load' });
+
     document.addEventListener('click', (event) => {
         const link = event.target instanceof Element ? event.target.closest('a[href]') : null;
         if (!link) return;
